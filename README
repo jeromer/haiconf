@@ -1,0 +1,8 @@
+git clone git@github.com:jeromer/haiconf.git
+cd ./haiconf
+ln -sv `pwd` $GOPATH/src/github.com/jeromer/
+make installdependencies
+make tests
+cat haiconf.lua
+go run main.go
+ls -l /private/tmp/haiconf/
