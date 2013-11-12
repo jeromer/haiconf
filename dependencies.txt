@@ -1,0 +1,5 @@
+launchpad.net/gocheck
+
+# We MUST use lua 5.1. Using 5.2 does not work
+github.com/aarzilli/golua/lua
+github.com/stevedonovan/luar
