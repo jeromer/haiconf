@@ -14,8 +14,6 @@ import (
 /*
 #include <grp.h>
 #include <unistd.h>
-#include <sys/types.h>
-#include <pwd.h>
 #include <stdlib.h>
 */
 import "C"
