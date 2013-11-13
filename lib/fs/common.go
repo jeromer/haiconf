@@ -4,9 +4,16 @@ import (
 	"fmt"
 	"github.com/jeromer/haiconf/hacks"
 	"github.com/jeromer/haiconf/lib"
+	"os"
 	"os/user"
 	"path"
 	"strconv"
+)
+
+const (
+	DEFAULT_MODE   = os.FileMode(0755)
+	ENSURE_PRESENT = "present"
+	ENSURE_ABSENT  = "absent"
 )
 
 type FsError struct {

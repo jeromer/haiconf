@@ -19,12 +19,6 @@ import (
 	"strconv"
 )
 
-const (
-	DEFAULT_MODE   = os.FileMode(0755)
-	ENSURE_PRESENT = "present"
-	ENSURE_ABSENT  = "absent"
-)
-
 type Directory struct {
 	path    string
 	mode    os.FileMode
