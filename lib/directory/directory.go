@@ -61,9 +61,7 @@ func ApplyCommand(args haiconf.CommandArgs) error {
 		return err
 	}
 
-	err = d.Run()
-
-	return err
+	return d.Run()
 }
 
 func (d *Directory) SetDefault() {
