@@ -133,3 +133,17 @@ func Chmod(path string, mode os.FileMode) error {
 
 	return nil
 }
+
+func Chown(path string, usr *user.User, grp *hacks.Group) error {
+	uid, err := strconv.Atoi(usr.Uid)
+	if err != nil {
+		return err
+	}
+
+	gid, err := strconv.Atoi(grp.Gid)
+	if err != nil {
+		return err
+	}
+
+	return os.Chown(path, uid, gid)
+}

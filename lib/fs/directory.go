@@ -16,7 +16,6 @@ import (
 	"github.com/jeromer/haiconf/lib"
 	"os"
 	"os/user"
-	"strconv"
 )
 
 type Directory struct {
@@ -114,7 +113,7 @@ func (d *Directory) Run() error {
 		return err
 	}
 
-	err = d.chown()
+	err = Chown(d.path, d.owner, d.group)
 	if err != nil {
 		return err
 	}
@@ -178,21 +177,6 @@ func (d *Directory) setGroup(args haiconf.CommandArgs) error {
 func (d *Directory) setRecurse(args haiconf.CommandArgs) error {
 	d.recurse = CheckRecurse(args)
 	return nil
-}
-
-func (d *Directory) chown() error {
-	uid, err := strconv.Atoi(d.owner.Uid)
-	if err != nil {
-		return err
-	}
-
-	gid, err := strconv.Atoi(d.group.Gid)
-	if err != nil {
-		return err
-	}
-
-	err = os.Chown(d.path, uid, gid)
-	return err
 }
 
 func (err *DirectoryError) Error() string {
