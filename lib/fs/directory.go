@@ -31,10 +31,6 @@ type Directory struct {
 	group *hacks.Group
 }
 
-type DirectoryError struct {
-	errorString string
-}
-
 func ApplyDirectory(args haiconf.CommandArgs) error {
 	var err error
 
@@ -177,8 +173,4 @@ func (d *Directory) setGroup(args haiconf.CommandArgs) error {
 func (d *Directory) setRecurse(args haiconf.CommandArgs) error {
 	d.recurse = CheckRecurse(args)
 	return nil
-}
-
-func (err *DirectoryError) Error() string {
-	return err.errorString
 }
