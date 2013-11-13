@@ -25,16 +25,6 @@ const (
 	ENSURE_ABSENT  = "absent"
 )
 
-var (
-	ErrNameEmpty          = &DirectoryError{"Path must have a value"}
-	ErrModeEmpty          = &DirectoryError{"Mode must be provided"}
-	ErrEnsureEmpty        = &DirectoryError{"Ensure flag must be provided"}
-	ErrInvalidChoice      = &DirectoryError{"Invalid choice for Ensure. Valid choices are \"" + ENSURE_PRESENT + "\" or \"" + ENSURE_ABSENT + "\""}
-	ErrOwnerEmpty         = &DirectoryError{"Owner must be defined"}
-	ErrGroupEmpty         = &DirectoryError{"Group must be defined"}
-	ErrPathMustBeAbsolute = &DirectoryError{"Path must be absolute"}
-)
-
 type Directory struct {
 	path    string
 	mode    os.FileMode
