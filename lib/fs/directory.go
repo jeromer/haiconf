@@ -104,7 +104,7 @@ func (d *Directory) Run() error {
 		return d.rmDir()
 	}
 
-	err := d.mkDir()
+	err := MkDir(d.path, d.recurse, d.mode)
 	if err != nil {
 		return err
 	}
@@ -178,23 +178,6 @@ func (d *Directory) setGroup(args haiconf.CommandArgs) error {
 func (d *Directory) setRecurse(args haiconf.CommandArgs) error {
 	d.recurse = CheckRecurse(args)
 	return nil
-}
-
-func (d *Directory) mkDir() error {
-	// XXX : symlink support ?
-
-	_, err := os.Stat(d.path)
-
-	// directory already exists
-	if err == nil {
-		return nil
-	}
-
-	if d.recurse {
-		return os.MkdirAll(d.path, os.FileMode(d.mode))
-	}
-
-	return os.Mkdir(d.path, os.FileMode(d.mode))
 }
 
 func (d *Directory) rmDir() error {

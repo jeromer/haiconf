@@ -3,6 +3,7 @@ package fs
 import (
 	"github.com/jeromer/haiconf/lib"
 	. "launchpad.net/gocheck"
+	"os"
 )
 
 type CommonTestSuite struct{}
@@ -98,4 +99,26 @@ func (s *CommonTestSuite) TestCheckMode_Provided(c *C) {
 	m, err := CheckMode(haiconf.CommandArgs{"Mode": "0750"})
 	c.Assert(err, IsNil)
 	c.Assert(m, Equals, int64(0750))
+}
+
+func (s *CommonTestSuite) TestMkDir_NonRecursive(c *C) {
+	tmpDir := c.MkDir() + "/foo"
+
+	err := MkDir(tmpDir, false, 0755)
+	c.Assert(err, IsNil)
+
+	f, err := os.Stat(tmpDir)
+	c.Assert(err, IsNil)
+	c.Assert(f.IsDir(), Equals, true)
+}
+
+func (s *CommonTestSuite) TestMkDir_Recursive(c *C) {
+	tmpDir := c.MkDir() + "/foo/bar/baz"
+
+	err := MkDir(tmpDir, true, 0755)
+	c.Assert(err, IsNil)
+
+	f, err := os.Stat(tmpDir)
+	c.Assert(err, IsNil)
+	c.Assert(f.IsDir(), Equals, true)
 }

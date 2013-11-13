@@ -91,3 +91,19 @@ func CheckRecurse(args haiconf.CommandArgs) bool {
 	r, _ := args["Recurse"].(bool)
 	return r
 }
+
+func MkDir(path string, recurse bool, mode os.FileMode) error {
+	// XXX : symlink support ?
+	_, err := os.Stat(path)
+
+	// directory already exists
+	if err == nil {
+		return nil
+	}
+
+	if recurse {
+		return os.MkdirAll(path, mode)
+	}
+
+	return os.Mkdir(path, mode)
+}
