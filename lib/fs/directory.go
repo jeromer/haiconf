@@ -109,7 +109,7 @@ func (d *Directory) Run() error {
 		return err
 	}
 
-	err = d.chmod()
+	err = Chmod(d.path, d.mode)
 	if err != nil {
 		return err
 	}
@@ -177,15 +177,6 @@ func (d *Directory) setGroup(args haiconf.CommandArgs) error {
 
 func (d *Directory) setRecurse(args haiconf.CommandArgs) error {
 	d.recurse = CheckRecurse(args)
-	return nil
-}
-
-func (d *Directory) chmod() error {
-	err := os.Chmod(d.path, d.mode)
-	if err != nil {
-		return err
-	}
-
 	return nil
 }
 

@@ -124,3 +124,12 @@ func RmDir(path string, recurse bool) error {
 
 	return os.Remove(path)
 }
+
+func Chmod(path string, mode os.FileMode) error {
+	err := os.Chmod(path, mode)
+	if err != nil {
+		return err
+	}
+
+	return nil
+}
