@@ -90,43 +90,6 @@ func (s *DirectoryTestSuite) TestSetUserConfig_Absent(c *C) {
 	c.Assert(s.d.group, DeepEquals, new(hacks.Group))
 }
 
-func (s *DirectoryTestSuite) TestRmDir_NonRecursive(c *C) {
-	tmpDir := c.MkDir() + "/foo"
-
-	err := MkDir(tmpDir, false, 0755)
-	c.Assert(err, IsNil)
-
-	f, err := os.Stat(tmpDir)
-	c.Assert(err, IsNil)
-	c.Assert(f.IsDir(), Equals, true)
-
-	err = s.d.rmDir()
-	c.Assert(err, IsNil)
-
-	f, err = os.Stat(tmpDir)
-	c.Assert(os.IsNotExist(err), Equals, true)
-	c.Assert(f, IsNil)
-}
-
-func (s *DirectoryTestSuite) TestRmDir_Recursive(c *C) {
-	suffix := "/foo/bar/baz"
-	tmpDir := c.MkDir()
-
-	err := MkDir(tmpDir+suffix, true, 0755)
-	c.Assert(err, IsNil)
-
-	f, err := os.Stat(tmpDir)
-	c.Assert(err, IsNil)
-	c.Assert(f.IsDir(), Equals, true)
-
-	err = s.d.rmDir()
-	c.Assert(err, IsNil)
-
-	f, err = os.Stat(tmpDir + suffix)
-	c.Assert(os.IsNotExist(err), Equals, true)
-	c.Assert(f, IsNil)
-}
-
 func (s *DirectoryTestSuite) TestRun_Create(c *C) {
 	tmpDir := c.MkDir() + "/foo/bar/baz"
 

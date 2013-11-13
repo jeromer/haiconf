@@ -101,7 +101,7 @@ func (d *Directory) SetUserConfig(args haiconf.CommandArgs) error {
 func (d *Directory) Run() error {
 	// XXX : acquire/release lock
 	if d.ensure == ENSURE_ABSENT {
-		return d.rmDir()
+		return RmDir(d.path, d.recurse)
 	}
 
 	err := MkDir(d.path, d.recurse, d.mode)
@@ -178,23 +178,6 @@ func (d *Directory) setGroup(args haiconf.CommandArgs) error {
 func (d *Directory) setRecurse(args haiconf.CommandArgs) error {
 	d.recurse = CheckRecurse(args)
 	return nil
-}
-
-func (d *Directory) rmDir() error {
-	// XXX : symlink support ?
-
-	_, err := os.Stat(d.path)
-
-	// directory does not exists
-	if os.IsNotExist(err) {
-		return nil
-	}
-
-	if d.recurse {
-		return os.RemoveAll(d.path)
-	}
-
-	return os.Remove(d.path)
 }
 
 func (d *Directory) chmod() error {

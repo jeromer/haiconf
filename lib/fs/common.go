@@ -107,3 +107,20 @@ func MkDir(path string, recurse bool, mode os.FileMode) error {
 
 	return os.Mkdir(path, mode)
 }
+
+func RmDir(path string, recurse bool) error {
+	// XXX : symlink support ?
+
+	_, err := os.Stat(path)
+
+	// directory does not exists
+	if os.IsNotExist(err) {
+		return nil
+	}
+
+	if recurse {
+		return os.RemoveAll(path)
+	}
+
+	return os.Remove(path)
+}

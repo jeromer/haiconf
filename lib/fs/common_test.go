@@ -122,3 +122,40 @@ func (s *CommonTestSuite) TestMkDir_Recursive(c *C) {
 	c.Assert(err, IsNil)
 	c.Assert(f.IsDir(), Equals, true)
 }
+
+func (s *CommonTestSuite) TestRmDir_NonRecursive(c *C) {
+	tmpDir := c.MkDir() + "/foo"
+
+	err := MkDir(tmpDir, false, 0755)
+	c.Assert(err, IsNil)
+
+	f, err := os.Stat(tmpDir)
+	c.Assert(err, IsNil)
+	c.Assert(f.IsDir(), Equals, true)
+
+	err = RmDir(tmpDir, false)
+	c.Assert(err, IsNil)
+
+	f, err = os.Stat(tmpDir)
+	c.Assert(os.IsNotExist(err), Equals, true)
+	c.Assert(f, IsNil)
+}
+
+func (s *CommonTestSuite) TestRmDir_Recursive(c *C) {
+	suffix := "/foo/bar/baz"
+	tmpDir := c.MkDir()
+
+	err := MkDir(tmpDir+suffix, true, 0755)
+	c.Assert(err, IsNil)
+
+	f, err := os.Stat(tmpDir)
+	c.Assert(err, IsNil)
+	c.Assert(f.IsDir(), Equals, true)
+
+	err = RmDir(tmpDir, true)
+	c.Assert(err, IsNil)
+
+	f, err = os.Stat(tmpDir + suffix)
+	c.Assert(os.IsNotExist(err), Equals, true)
+	c.Assert(f, IsNil)
+}
