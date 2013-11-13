@@ -9,14 +9,13 @@
 //         Ensure  = "present",
 //     })
 //
-package directory
+package fs
 
 import (
 	"github.com/jeromer/haiconf/hacks"
 	"github.com/jeromer/haiconf/lib"
 	"os"
 	"os/user"
-	"path"
 	"strconv"
 )
 
@@ -28,6 +27,8 @@ const (
 
 var (
 	ErrNameEmpty          = &DirectoryError{"Path must have a value"}
+	ErrModeEmpty          = &DirectoryError{"Mode must be provided"}
+	ErrEnsureEmpty        = &DirectoryError{"Ensure flag must be provided"}
 	ErrInvalidChoice      = &DirectoryError{"Invalid choice for Ensure. Valid choices are \"" + ENSURE_PRESENT + "\" or \"" + ENSURE_ABSENT + "\""}
 	ErrOwnerEmpty         = &DirectoryError{"Owner must be defined"}
 	ErrGroupEmpty         = &DirectoryError{"Group must be defined"}
@@ -51,7 +52,7 @@ type DirectoryError struct {
 	errorString string
 }
 
-func ApplyCommand(args haiconf.CommandArgs) error {
+func ApplyDirectory(args haiconf.CommandArgs) error {
 	var err error
 
 	d := new(Directory)
@@ -138,14 +139,9 @@ func (d *Directory) Run() error {
 }
 
 func (d *Directory) setPath(args haiconf.CommandArgs) error {
-	p, _ := args["Path"].(string)
-
-	if p == "" {
-		return ErrNameEmpty
-	}
-
-	if !path.IsAbs(p) {
-		return ErrPathMustBeAbsolute
+	p, err := CheckPath(args)
+	if err != nil {
+		return err
 	}
 
 	d.path = p
@@ -154,45 +150,29 @@ func (d *Directory) setPath(args haiconf.CommandArgs) error {
 }
 
 func (d *Directory) setEnsure(args haiconf.CommandArgs) error {
-	e, _ := args["Ensure"].(string)
-	if e != "" {
-		if e != ENSURE_PRESENT && e != ENSURE_ABSENT {
-			return ErrInvalidChoice
-		}
-
-		d.ensure = e
+	e, err := CheckEnsure(args)
+	if err != nil {
+		return err
 	}
+
+	d.ensure = e
 
 	return nil
 }
 
 func (d *Directory) setMode(args haiconf.CommandArgs) error {
-	mStr, _ := args["Mode"].(string)
-
-	if mStr == "" {
-		return nil
-	}
-
-	mOct, err := strconv.ParseInt(mStr, 8, 0)
+	m, err := CheckMode(args)
 	if err != nil {
 		return err
 	}
 
-	// The rest of FileMode checking is left to os.Mkdir and others
-	if mOct > 0 {
-		d.mode = os.FileMode(mOct)
-	}
+	d.mode = os.FileMode(m)
 
 	return nil
 }
 
 func (d *Directory) setOwner(args haiconf.CommandArgs) error {
-	o, _ := args["Owner"].(string)
-	if o == "" {
-		return ErrOwnerEmpty
-	}
-
-	u, err := user.Lookup(o)
+	u, err := CheckOwner(args)
 	if err != nil {
 		return err
 	}
@@ -202,12 +182,7 @@ func (d *Directory) setOwner(args haiconf.CommandArgs) error {
 }
 
 func (d *Directory) setGroup(args haiconf.CommandArgs) error {
-	g, _ := args["Group"].(string)
-	if g == "" {
-		return ErrGroupEmpty
-	}
-
-	grp, err := hacks.LookupSystemGroup(g)
+	grp, err := CheckGroup(args)
 	if err != nil {
 		return err
 	}
@@ -217,8 +192,7 @@ func (d *Directory) setGroup(args haiconf.CommandArgs) error {
 }
 
 func (d *Directory) setRecurse(args haiconf.CommandArgs) error {
-	r, _ := args["Recurse"].(bool)
-	d.recurse = r
+	d.recurse = CheckRecurse(args)
 	return nil
 }
 

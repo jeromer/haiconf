@@ -1,4 +1,4 @@
-package directory
+package fs
 
 import (
 	"github.com/jeromer/haiconf/hacks"
@@ -37,86 +37,6 @@ func (s *DirectoryTestSuite) TestSetDefault(c *C) {
 	}
 
 	c.Assert(s.d, DeepEquals, expected)
-}
-
-func (s *DirectoryTestSuite) TestSetPath_PathInvalid(c *C) {
-	err := s.d.setPath(haiconf.CommandArgs{})
-	c.Assert(err, Equals, ErrNameEmpty)
-	c.Assert(s.d.path, Equals, "")
-}
-
-func (s *DirectoryTestSuite) TestSetPath_PathMustBeAbsolute(c *C) {
-	err := s.d.setPath(haiconf.CommandArgs{"Path": "./relative/dir"})
-	c.Assert(err, Equals, ErrPathMustBeAbsolute)
-	c.Assert(s.d.path, Equals, "")
-}
-
-func (s *DirectoryTestSuite) TestSetEnsure_FallbackToDefault(c *C) {
-	err := s.d.setEnsure(haiconf.CommandArgs{})
-	c.Assert(err, IsNil)
-	c.Assert(s.d.ensure, Equals, ENSURE_PRESENT)
-}
-
-func (s *DirectoryTestSuite) TestSetEnsure_WrongChoice(c *C) {
-	err := s.d.setEnsure(haiconf.CommandArgs{"Ensure": "foo"})
-	c.Assert(err, Equals, ErrInvalidChoice)
-}
-
-func (s *DirectoryTestSuite) TestSetOwner_Exists(c *C) {
-	o := "nobody"
-	err := s.d.setOwner(haiconf.CommandArgs{"Owner": o})
-
-	c.Assert(err, IsNil)
-	c.Assert(s.d.owner.Username, Equals, o)
-}
-
-func (s *DirectoryTestSuite) TestSetOwner_DoesNotExists(c *C) {
-	o := "azertyuiop-1234567890"
-	err := s.d.setOwner(haiconf.CommandArgs{"Owner": o})
-
-	c.Assert(err, NotNil)
-	c.Assert(err.Error(), Equals, "user: unknown user "+o)
-	c.Assert(s.d.owner, DeepEquals, new(user.User))
-}
-
-func (s *DirectoryTestSuite) TestSetGroup_Exists(c *C) {
-	g := "nobody"
-	err := s.d.setGroup(haiconf.CommandArgs{"Group": g})
-
-	c.Assert(err, IsNil)
-	c.Assert(s.d.group.Name, Equals, g)
-}
-
-func (s *DirectoryTestSuite) TestSetGroup_DoesNotExists(c *C) {
-	g := "foo"
-	err := s.d.setGroup(haiconf.CommandArgs{"Group": g})
-
-	c.Assert(err, NotNil)
-	c.Assert(s.d.group, DeepEquals, new(hacks.Group))
-}
-
-func (s *DirectoryTestSuite) TestSetRecurse_Provided(c *C) {
-	err := s.d.setRecurse(haiconf.CommandArgs{"Recurse": true})
-	c.Assert(err, IsNil)
-	c.Assert(s.d.recurse, Equals, true)
-}
-
-func (s *DirectoryTestSuite) TestSetRecurse_NotProvided(c *C) {
-	err := s.d.setRecurse(haiconf.CommandArgs{})
-	c.Assert(err, IsNil)
-	c.Assert(s.d.recurse, Equals, false)
-}
-
-func (s *DirectoryTestSuite) TestSetMode_FallbackToDefault(c *C) {
-	err := s.d.setMode(haiconf.CommandArgs{})
-	c.Assert(err, IsNil)
-	c.Assert(s.d.mode, Equals, DEFAULT_MODE)
-}
-
-func (s *DirectoryTestSuite) TestSetMode_Provided(c *C) {
-	err := s.d.setMode(haiconf.CommandArgs{"Mode": "0750"})
-	c.Assert(err, IsNil)
-	c.Assert(s.d.mode, Equals, os.FileMode(0750))
 }
 
 func (s *DirectoryTestSuite) TestSetUserConfig_Complete(c *C) {

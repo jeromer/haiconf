@@ -4,7 +4,7 @@ import (
 	"flag"
 	"fmt"
 	lua "github.com/aarzilli/golua/lua"
-	"github.com/jeromer/haiconf/lib/directory"
+	"github.com/jeromer/haiconf/lib/fs"
 	"github.com/stevedonovan/luar"
 )
 
@@ -65,7 +65,7 @@ func (c *Conf) RunMain() {
 }
 
 func Directory(m map[string]interface{}) {
-	err := directory.ApplyCommand(m)
+	err := fs.ApplyDirectory(m)
 	if err != nil {
 		fmt.Println(err.Error())
 	}
