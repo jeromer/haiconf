@@ -52,7 +52,7 @@ func ApplyDirectory(args haiconf.CommandArgs) error {
 func (d *Directory) SetDefault() {
 	*d = Directory{
 		path:    "",
-		mode:    DEFAULT_MODE,
+		mode:    DEFAULT_MODE_DIRECTORY,
 		owner:   new(user.User),
 		group:   new(hacks.Group),
 		recurse: false,

@@ -11,9 +11,9 @@ import (
 )
 
 const (
-	DEFAULT_MODE   = os.FileMode(0755)
-	ENSURE_PRESENT = "present"
-	ENSURE_ABSENT  = "absent"
+	DEFAULT_MODE_DIRECTORY = os.FileMode(0755)
+	ENSURE_PRESENT         = "present"
+	ENSURE_ABSENT          = "absent"
 )
 
 type FsError struct {

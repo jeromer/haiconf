@@ -82,7 +82,7 @@ func (s *DirectoryTestSuite) TestSetUserConfig_Absent(c *C) {
 	c.Assert(s.d.path, Equals, args["Path"])
 	c.Assert(s.d.recurse, Equals, args["Recurse"])
 	c.Assert(s.d.ensure, Equals, args["Ensure"])
-	c.Assert(s.d.mode, Equals, DEFAULT_MODE)
+	c.Assert(s.d.mode, Equals, DEFAULT_MODE_DIRECTORY)
 
 	// Since we want to remove the directory we do not care about
 	// the value of attributes below
