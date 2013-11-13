@@ -1,4 +1,4 @@
-SUBPACKAGES=lib/directory hacks
+SUBPACKAGES=lib/fs hacks
 help:
 	@echo "Available targets:"
 	@echo "- tests: run tests"
