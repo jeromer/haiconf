@@ -40,6 +40,7 @@ func NewConf() *Conf {
 
 	luar.Register(c.l, "", luar.Map{
 		"Directory": Directory,
+		"File":      File,
 	})
 
 	return &c
@@ -66,6 +67,13 @@ func (c *Conf) RunMain() {
 
 func Directory(m map[string]interface{}) {
 	err := fs.ApplyDirectory(m)
+	if err != nil {
+		fmt.Println(err.Error())
+	}
+}
+
+func File(m map[string]interface{}) {
+	err := fs.ApplyFile(m)
 	if err != nil {
 		fmt.Println(err.Error())
 	}
