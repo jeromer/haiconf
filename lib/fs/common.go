@@ -12,6 +12,7 @@ import (
 
 const (
 	DEFAULT_MODE_DIRECTORY = os.FileMode(0755)
+	DEFAULT_MODE_FILE      = os.FileMode(0644)
 	ENSURE_PRESENT         = "present"
 	ENSURE_ABSENT          = "absent"
 )
@@ -30,15 +31,22 @@ func (err *FsError) Error() string {
 }
 
 func CheckPath(args haiconf.CommandArgs) (string, error) {
-	k := "Path"
+	return checkAbsolutePath(args, "Path")
+}
+
+func CheckSource(args haiconf.CommandArgs) (string, error) {
+	return checkAbsolutePath(args, "Source")
+}
+
+func checkAbsolutePath(args haiconf.CommandArgs, k string) (string, error) {
 	p, _ := args[k].(string)
 
 	if p == "" {
-		return p, NewFsError("Path must be provided", args)
+		return p, NewFsError(k+" must be provided", args)
 	}
 
 	if !path.IsAbs(p) {
-		return p, NewFsError("Path must be absolute", args)
+		return p, NewFsError(k+" must be absolute", args)
 	}
 
 	return p, nil
