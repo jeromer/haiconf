@@ -3,7 +3,7 @@ package fs
 import (
 	"fmt"
 	"github.com/jeromer/haiconf/hacks"
-	"github.com/jeromer/haiconf/lib"
+	"github.com/jeromer/haiconf/haiconf"
 	"os"
 	"os/user"
 	"path"

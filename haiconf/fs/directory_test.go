@@ -2,7 +2,7 @@ package fs
 
 import (
 	"github.com/jeromer/haiconf/hacks"
-	"github.com/jeromer/haiconf/lib"
+	"github.com/jeromer/haiconf/haiconf"
 	. "launchpad.net/gocheck"
 	"os"
 	"os/user"
