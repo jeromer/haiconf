@@ -4,7 +4,7 @@ import (
 	"flag"
 	"fmt"
 	lua "github.com/aarzilli/golua/lua"
-	"github.com/jeromer/haiconf/lib/fs"
+	"github.com/jeromer/haiconf/haiconf/fs"
 	"github.com/stevedonovan/luar"
 )
 
