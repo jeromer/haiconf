@@ -4,6 +4,7 @@ import (
 	"flag"
 	"fmt"
 	lua "github.com/aarzilli/golua/lua"
+	"github.com/jeromer/haiconf/haiconf"
 	"github.com/jeromer/haiconf/haiconf/fs"
 	"github.com/stevedonovan/luar"
 )
@@ -54,8 +55,6 @@ func (c *Conf) Close() {
 	c.l.Close()
 }
 
-// -------------------
-
 func (c *Conf) RunMain() {
 	fun := luar.NewLuaObjectFromName(c.l, "Main")
 	_, err := fun.Call()
@@ -65,15 +64,27 @@ func (c *Conf) RunMain() {
 	}
 }
 
-func Directory(m map[string]interface{}) {
-	err := fs.ApplyDirectory(m)
+// -------------------
+
+func Directory(args haiconf.CommandArgs) {
+	runCommand(new(fs.Directory), args)
+}
+
+func File(args haiconf.CommandArgs) {
+	runCommand(new(fs.File), args)
+}
+
+func runCommand(c haiconf.Commander, args haiconf.CommandArgs) {
+	var err error
+
+	c.SetDefault()
+
+	err = c.SetUserConfig(args)
 	if err != nil {
 		fmt.Println(err.Error())
 	}
-}
 
-func File(m map[string]interface{}) {
-	err := fs.ApplyFile(m)
+	err = c.Run()
 	if err != nil {
 		fmt.Println(err.Error())
 	}

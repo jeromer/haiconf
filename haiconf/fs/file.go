@@ -55,7 +55,7 @@ func ApplyFile(args haiconf.CommandArgs) error {
 	return f.Run()
 }
 
-func (f *File) SetDefault() {
+func (f *File) SetDefault() error {
 	*f = File{
 		path:              "",
 		mode:              DEFAULT_MODE_FILE,
@@ -65,6 +65,8 @@ func (f *File) SetDefault() {
 		source:            "",
 		templateVariables: nil,
 	}
+
+	return nil
 }
 
 func (f *File) SetUserConfig(args haiconf.CommandArgs) error {

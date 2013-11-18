@@ -21,7 +21,8 @@ var _ = Suite(&DirectoryTestSuite{})
 
 func (s *DirectoryTestSuite) SetUpTest(c *C) {
 	s.d = new(Directory)
-	s.d.SetDefault()
+	err := s.d.SetDefault()
+	c.Assert(err, IsNil)
 }
 
 func (s *DirectoryTestSuite) TestSetDefault(c *C) {

@@ -44,7 +44,7 @@ func ApplyDirectory(args haiconf.CommandArgs) error {
 	return d.Run()
 }
 
-func (d *Directory) SetDefault() {
+func (d *Directory) SetDefault() error {
 	*d = Directory{
 		path:    "",
 		mode:    DEFAULT_MODE_DIRECTORY,
@@ -53,6 +53,8 @@ func (d *Directory) SetDefault() {
 		recurse: false,
 		ensure:  ENSURE_PRESENT,
 	}
+
+	return nil
 }
 
 func (d *Directory) SetUserConfig(args haiconf.CommandArgs) error {
