@@ -104,7 +104,7 @@ func (s *CheckersTestSuite) TestCheckInt64_Provided(c *C) {
 }
 
 func (s *CheckersTestSuite) TestCheckString_Empty(c *C) {
-	p, err := CheckAbsolutePath("String", CommandArgs{})
+	p, err := CheckString("String", CommandArgs{})
 	c.Assert(err, ErrorMatches, "String must be provided(.*)")
 	c.Assert(p, Equals, "")
 }
