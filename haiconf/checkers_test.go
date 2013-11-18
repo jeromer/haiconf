@@ -27,7 +27,7 @@ func (s *CheckersTestSuite) TestCheckAbsolutePath_RelativePath(c *C) {
 
 func (s *CheckersTestSuite) TestCheckEnsure_NotProvided(c *C) {
 	e, err := CheckEnsure(CommandArgs{})
-	c.Assert(err, ErrorMatches, "Ensure flag must be provided(.*)")
+	c.Assert(err, ErrorMatches, "Ensure must be provided(.*)")
 	c.Assert(e, Equals, "")
 }
 

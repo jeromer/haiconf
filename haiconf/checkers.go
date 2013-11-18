@@ -5,6 +5,7 @@ import (
 	"os/user"
 	"path"
 	"strconv"
+	"strings"
 )
 
 const (
@@ -60,16 +61,22 @@ func CheckBool(k string, args CommandArgs) bool {
 }
 
 func CheckEnsure(args CommandArgs) (string, error) {
-	e, _ := args["Ensure"].(string)
+	return checkStringChoice("Ensure", args, []string{ENSURE_PRESENT, ENSURE_ABSENT})
+}
 
-	if e != "" {
-		if e != ENSURE_PRESENT && e != ENSURE_ABSENT {
-			errMsg := "Invalid choice for Ensure. Valid choices are \"" + ENSURE_PRESENT + "\" or \"" + ENSURE_ABSENT + "\""
-			return "", NewArgError(errMsg, args)
-		}
+func checkStringChoice(k string, args CommandArgs, choices []string) (string, error) {
+	s, _ := args[k].(string)
 
-		return e, nil
+	if s == "" {
+		return s, NewArgError(k+" must be provided", args)
 	}
 
-	return e, NewArgError("Ensure flag must be provided", args)
+	for _, c := range choices {
+		if s == c {
+			return s, nil
+		}
+	}
+
+	errMsg := "Invalid choice for " + k + ". Valid choices are " + strings.Join(choices, ", ")
+	return "", NewArgError(errMsg, args)
 }
