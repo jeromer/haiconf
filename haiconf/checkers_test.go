@@ -114,3 +114,16 @@ func (s *CheckersTestSuite) TestCheckString_NonEmpty(c *C) {
 	c.Assert(err, IsNil)
 	c.Assert(p, Equals, "foo")
 }
+
+func (s *CheckersTestSuite) TestCheckStringList_Empty(c *C) {
+	p, err := CheckStringList("StringList", CommandArgs{})
+	c.Assert(err, ErrorMatches, "StringList must be provided(.*)")
+	var expected []string
+	c.Assert(p, DeepEquals, expected)
+}
+
+func (s *CheckersTestSuite) TestCheckStringList_NonEmpty(c *C) {
+	p, err := CheckStringList("StringList", CommandArgs{"StringList": []string{"foo"}})
+	c.Assert(err, IsNil)
+	c.Assert(p, DeepEquals, []string{"foo"})
+}

@@ -89,3 +89,13 @@ func CheckString(k string, args CommandArgs) (string, error) {
 
 	return p, nil
 }
+
+func CheckStringList(k string, args CommandArgs) ([]string, error) {
+	sl, _ := args[k].([]string)
+
+	if len(sl) <= 0 {
+		return sl, NewArgError(k+" must be provided", args)
+	}
+
+	return sl, nil
+}
