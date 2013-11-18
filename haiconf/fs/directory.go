@@ -31,19 +31,6 @@ type Directory struct {
 	group *hacks.Group
 }
 
-func ApplyDirectory(args haiconf.CommandArgs) error {
-	var err error
-
-	d := new(Directory)
-	d.SetDefault()
-	err = d.SetUserConfig(args)
-	if err != nil {
-		return err
-	}
-
-	return d.Run()
-}
-
 func (d *Directory) SetDefault() error {
 	*d = Directory{
 		path:    "",
