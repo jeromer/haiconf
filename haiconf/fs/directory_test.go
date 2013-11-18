@@ -34,7 +34,7 @@ func (s *DirectoryTestSuite) TestSetDefault(c *C) {
 		owner:   new(user.User),
 		group:   new(hacks.Group),
 		recurse: false,
-		ensure:  ENSURE_PRESENT,
+		ensure:  haiconf.ENSURE_PRESENT,
 	}
 
 	c.Assert(s.d, DeepEquals, expected)
@@ -43,7 +43,7 @@ func (s *DirectoryTestSuite) TestSetDefault(c *C) {
 func (s *DirectoryTestSuite) TestSetUserConfig_Complete(c *C) {
 	args := haiconf.CommandArgs{
 		"Path":    "/foo",
-		"Ensure":  ENSURE_PRESENT,
+		"Ensure":  haiconf.ENSURE_PRESENT,
 		"Recurse": true,
 		"Mode":    "0777",
 		"Owner":   "nobody",
@@ -70,7 +70,7 @@ func (s *DirectoryTestSuite) TestSetUserConfig_Complete(c *C) {
 func (s *DirectoryTestSuite) TestSetUserConfig_Absent(c *C) {
 	args := haiconf.CommandArgs{
 		"Path":    "/foo",
-		"Ensure":  ENSURE_ABSENT,
+		"Ensure":  haiconf.ENSURE_ABSENT,
 		"Recurse": true,
 		"Mode":    0777,
 		"Owner":   "nobody",
@@ -103,7 +103,7 @@ func (s *DirectoryTestSuite) TestRun_Create(c *C) {
 		"Group":   "nogroup",
 		"Recurse": true,
 		"Mode":    "0777",
-		"Ensure":  ENSURE_PRESENT,
+		"Ensure":  haiconf.ENSURE_PRESENT,
 	})
 	c.Assert(err, IsNil)
 
@@ -135,7 +135,7 @@ func (s *DirectoryTestSuite) TestRun_Remove(c *C) {
 	err = s.d.SetUserConfig(haiconf.CommandArgs{
 		"Path":    tmpDir,
 		"Recurse": true,
-		"Ensure":  ENSURE_ABSENT,
+		"Ensure":  haiconf.ENSURE_ABSENT,
 	})
 	c.Assert(err, IsNil)
 

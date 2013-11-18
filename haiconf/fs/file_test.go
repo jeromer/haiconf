@@ -27,7 +27,7 @@ func (s *FileTestSuite) TestSetDefault(c *C) {
 		mode:              DEFAULT_MODE_FILE,
 		owner:             new(user.User),
 		group:             new(hacks.Group),
-		ensure:            ENSURE_PRESENT,
+		ensure:            haiconf.ENSURE_PRESENT,
 		templateVariables: nil,
 	}
 
@@ -37,7 +37,7 @@ func (s *FileTestSuite) TestSetDefault(c *C) {
 func (s *FileTestSuite) TestSetUserConfig_Present(c *C) {
 	args := haiconf.CommandArgs{
 		"Path":   "/foo.txt",
-		"Ensure": ENSURE_PRESENT,
+		"Ensure": haiconf.ENSURE_PRESENT,
 		"Mode":   "0777",
 		"Owner":  "nobody",
 		"Group":  "nogroup",
@@ -64,7 +64,7 @@ func (s *FileTestSuite) TestSetUserConfig_Present(c *C) {
 func (s *FileTestSuite) TestSetUserConfig_Absent(c *C) {
 	args := haiconf.CommandArgs{
 		"Path":   "/foo",
-		"Ensure": ENSURE_ABSENT,
+		"Ensure": haiconf.ENSURE_ABSENT,
 		"Mode":   0777,
 		"Owner":  "nobody",
 		"Group":  "nogroup",
@@ -97,7 +97,7 @@ func (s *FileTestSuite) TestRun_CreateRecursive(c *C) {
 
 	err = s.f.SetUserConfig(haiconf.CommandArgs{
 		"Path":   tmpFile,
-		"Ensure": ENSURE_PRESENT,
+		"Ensure": haiconf.ENSURE_PRESENT,
 		"Mode":   "0600",
 		"Owner":  cu.Username,
 		"Group":  "nogroup",
@@ -135,7 +135,7 @@ func (s *FileTestSuite) TestRun_CreateNonRecursive(c *C) {
 
 	err = s.f.SetUserConfig(haiconf.CommandArgs{
 		"Path":   tmpFile,
-		"Ensure": ENSURE_PRESENT,
+		"Ensure": haiconf.ENSURE_PRESENT,
 		"Mode":   "0644",
 		"Owner":  cu.Username,
 		"Group":  "nogroup",
@@ -173,7 +173,7 @@ func (s *FileTestSuite) TestRun_CreateApplyTemplates(c *C) {
 
 	err = s.f.SetUserConfig(haiconf.CommandArgs{
 		"Path":   tmpFile,
-		"Ensure": ENSURE_PRESENT,
+		"Ensure": haiconf.ENSURE_PRESENT,
 		"Mode":   "0644",
 		"Owner":  cu.Username,
 		"Group":  "nogroup",
@@ -212,7 +212,7 @@ func (s *FileTestSuite) TestRun_Remove(c *C) {
 
 	err = s.f.SetUserConfig(haiconf.CommandArgs{
 		"Path":   tmpFile,
-		"Ensure": ENSURE_ABSENT,
+		"Ensure": haiconf.ENSURE_ABSENT,
 	})
 	c.Assert(err, IsNil)
 

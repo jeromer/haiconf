@@ -48,7 +48,7 @@ func (f *File) SetDefault() error {
 		mode:              DEFAULT_MODE_FILE,
 		owner:             new(user.User),
 		group:             new(hacks.Group),
-		ensure:            ENSURE_PRESENT,
+		ensure:            haiconf.ENSURE_PRESENT,
 		source:            "",
 		templateVariables: nil,
 	}
@@ -67,7 +67,7 @@ func (f *File) SetUserConfig(args haiconf.CommandArgs) error {
 		return err
 	}
 
-	if f.ensure == ENSURE_ABSENT {
+	if f.ensure == haiconf.ENSURE_ABSENT {
 		return nil
 	}
 
@@ -101,7 +101,7 @@ func (f *File) SetUserConfig(args haiconf.CommandArgs) error {
 
 func (f *File) Run() error {
 	// XXX : acquire/release lock
-	if f.ensure == ENSURE_ABSENT {
+	if f.ensure == haiconf.ENSURE_ABSENT {
 		return os.Remove(f.path)
 	}
 
@@ -129,7 +129,7 @@ func (f *File) Run() error {
 }
 
 func (f *File) setPath(args haiconf.CommandArgs) error {
-	p, err := CheckPath(args)
+	p, err := haiconf.CheckAbsolutePath("Path", args)
 	if err != nil {
 		return err
 	}
@@ -140,7 +140,7 @@ func (f *File) setPath(args haiconf.CommandArgs) error {
 }
 
 func (f *File) setEnsure(args haiconf.CommandArgs) error {
-	e, err := CheckEnsure(args)
+	e, err := haiconf.CheckEnsure(args)
 	if err != nil {
 		return err
 	}
@@ -151,7 +151,7 @@ func (f *File) setEnsure(args haiconf.CommandArgs) error {
 }
 
 func (f *File) setMode(args haiconf.CommandArgs) error {
-	m, err := CheckMode(args)
+	m, err := haiconf.CheckInt64("Mode", args)
 	if err != nil {
 		return err
 	}
@@ -162,7 +162,7 @@ func (f *File) setMode(args haiconf.CommandArgs) error {
 }
 
 func (f *File) setOwner(args haiconf.CommandArgs) error {
-	u, err := CheckOwner(args)
+	u, err := haiconf.CheckSystemUser("Owner", args)
 	if err != nil {
 		return err
 	}
@@ -172,7 +172,7 @@ func (f *File) setOwner(args haiconf.CommandArgs) error {
 }
 
 func (f *File) setGroup(args haiconf.CommandArgs) error {
-	grp, err := CheckGroup(args)
+	grp, err := haiconf.CheckSystemGroup("Group", args)
 	if err != nil {
 		return err
 	}
@@ -215,7 +215,7 @@ func (f *File) setTemplateVariables(args haiconf.CommandArgs) error {
 }
 
 func (f *File) setSource(args haiconf.CommandArgs) error {
-	src, err := CheckSource(args)
+	src, err := haiconf.CheckAbsolutePath("Source", args)
 	if err != nil {
 		return err
 	}

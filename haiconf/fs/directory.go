@@ -38,7 +38,7 @@ func (d *Directory) SetDefault() error {
 		owner:   new(user.User),
 		group:   new(hacks.Group),
 		recurse: false,
-		ensure:  ENSURE_PRESENT,
+		ensure:  haiconf.ENSURE_PRESENT,
 	}
 
 	return nil
@@ -60,7 +60,7 @@ func (d *Directory) SetUserConfig(args haiconf.CommandArgs) error {
 		return err
 	}
 
-	if d.ensure == ENSURE_ABSENT {
+	if d.ensure == haiconf.ENSURE_ABSENT {
 		return nil
 	}
 
@@ -84,7 +84,7 @@ func (d *Directory) SetUserConfig(args haiconf.CommandArgs) error {
 
 func (d *Directory) Run() error {
 	// XXX : acquire/release lock
-	if d.ensure == ENSURE_ABSENT {
+	if d.ensure == haiconf.ENSURE_ABSENT {
 		return RmDir(d.path, d.recurse)
 	}
 
@@ -107,7 +107,7 @@ func (d *Directory) Run() error {
 }
 
 func (d *Directory) setPath(args haiconf.CommandArgs) error {
-	p, err := CheckPath(args)
+	p, err := haiconf.CheckAbsolutePath("Path", args)
 	if err != nil {
 		return err
 	}
@@ -118,7 +118,7 @@ func (d *Directory) setPath(args haiconf.CommandArgs) error {
 }
 
 func (d *Directory) setEnsure(args haiconf.CommandArgs) error {
-	e, err := CheckEnsure(args)
+	e, err := haiconf.CheckEnsure(args)
 	if err != nil {
 		return err
 	}
@@ -129,7 +129,7 @@ func (d *Directory) setEnsure(args haiconf.CommandArgs) error {
 }
 
 func (d *Directory) setMode(args haiconf.CommandArgs) error {
-	m, err := CheckMode(args)
+	m, err := haiconf.CheckInt64("Mode", args)
 	if err != nil {
 		return err
 	}
@@ -140,7 +140,7 @@ func (d *Directory) setMode(args haiconf.CommandArgs) error {
 }
 
 func (d *Directory) setOwner(args haiconf.CommandArgs) error {
-	u, err := CheckOwner(args)
+	u, err := haiconf.CheckSystemUser("Owner", args)
 	if err != nil {
 		return err
 	}
@@ -150,7 +150,7 @@ func (d *Directory) setOwner(args haiconf.CommandArgs) error {
 }
 
 func (d *Directory) setGroup(args haiconf.CommandArgs) error {
-	grp, err := CheckGroup(args)
+	grp, err := haiconf.CheckSystemGroup("Group", args)
 	if err != nil {
 		return err
 	}
@@ -160,6 +160,6 @@ func (d *Directory) setGroup(args haiconf.CommandArgs) error {
 }
 
 func (d *Directory) setRecurse(args haiconf.CommandArgs) error {
-	d.recurse = CheckRecurse(args)
+	d.recurse = haiconf.CheckBool("Recurse", args)
 	return nil
 }
