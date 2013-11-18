@@ -42,19 +42,6 @@ type File struct {
 	templateVariables map[string]interface{}
 }
 
-func ApplyFile(args haiconf.CommandArgs) error {
-	var err error
-
-	f := new(File)
-	f.SetDefault()
-	err = f.SetUserConfig(args)
-	if err != nil {
-		return err
-	}
-
-	return f.Run()
-}
-
 func (f *File) SetDefault() error {
 	*f = File{
 		path:              "",
