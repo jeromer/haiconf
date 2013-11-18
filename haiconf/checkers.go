@@ -61,10 +61,10 @@ func CheckBool(k string, args CommandArgs) bool {
 }
 
 func CheckEnsure(args CommandArgs) (string, error) {
-	return checkStringChoice("Ensure", args, []string{ENSURE_PRESENT, ENSURE_ABSENT})
+	return CheckStringChoice("Ensure", args, []string{ENSURE_PRESENT, ENSURE_ABSENT})
 }
 
-func checkStringChoice(k string, args CommandArgs, choices []string) (string, error) {
+func CheckStringChoice(k string, args CommandArgs, choices []string) (string, error) {
 	s, _ := args[k].(string)
 
 	if s == "" {
