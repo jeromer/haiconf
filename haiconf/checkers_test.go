@@ -102,3 +102,15 @@ func (s *CheckersTestSuite) TestCheckInt64_Provided(c *C) {
 	c.Assert(err, IsNil)
 	c.Assert(m, Equals, int64(0750))
 }
+
+func (s *CheckersTestSuite) TestCheckString_Empty(c *C) {
+	p, err := CheckAbsolutePath("String", CommandArgs{})
+	c.Assert(err, ErrorMatches, "String must be provided(.*)")
+	c.Assert(p, Equals, "")
+}
+
+func (s *CheckersTestSuite) TestCheckString_NonEmpty(c *C) {
+	p, err := CheckString("String", CommandArgs{"String": "foo"})
+	c.Assert(err, IsNil)
+	c.Assert(p, Equals, "foo")
+}

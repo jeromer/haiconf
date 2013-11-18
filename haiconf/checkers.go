@@ -14,10 +14,9 @@ const (
 )
 
 func CheckAbsolutePath(k string, args CommandArgs) (string, error) {
-	p, _ := args[k].(string)
-
-	if p == "" {
-		return p, NewArgError(k+" must be provided", args)
+	p, err := CheckString(k, args)
+	if err != nil {
+		return p, err
 	}
 
 	if !path.IsAbs(p) {
@@ -79,4 +78,14 @@ func CheckStringChoice(k string, args CommandArgs, choices []string) (string, er
 
 	errMsg := "Invalid choice for " + k + ". Valid choices are " + strings.Join(choices, ", ")
 	return "", NewArgError(errMsg, args)
+}
+
+func CheckString(k string, args CommandArgs) (string, error) {
+	p, _ := args[k].(string)
+
+	if p == "" {
+		return p, NewArgError(k+" must be provided", args)
+	}
+
+	return p, nil
 }
