@@ -36,6 +36,7 @@ var (
 	availableMethods = []string{
 		"install",
 		"update",
+		"remove",
 	}
 
 	envVariables = map[string]string{
@@ -72,8 +73,8 @@ func (ag *AptGet) SetUserConfig(args haiconf.CommandArgs) error {
 		return err
 	}
 
-	// non apt-get install
-	if ag.method != availableMethods[0] {
+	// update
+	if ag.method == availableMethods[1] {
 		return nil
 	}
 
