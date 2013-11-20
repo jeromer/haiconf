@@ -24,7 +24,7 @@ func (s *AptGetTestSuite) SetUpTest(c *C) {
 
 func (s *AptGetTestSuite) TestSetPackages_NotFromList(c *C) {
 	args := haiconf.CommandArgs{
-		"Packages": []string{"a", "b"},
+		"Packages": []interface{}{"a", "b"},
 	}
 
 	err := s.ag.setPackages(args)
@@ -46,7 +46,7 @@ func (s *AptGetTestSuite) TestSetPackages_FromList(c *C) {
 
 func (s *AptGetTestSuite) TestSetPackages_DuplicateRemoved(c *C) {
 	args := haiconf.CommandArgs{
-		"Packages": []string{"a", "b", "a"},
+		"Packages": []interface{}{"a", "b", "a"},
 	}
 
 	err := s.ag.setPackages(args)
@@ -59,7 +59,7 @@ func (s *AptGetTestSuite) TestSetPackages_PackagesHasPrecedence(c *C) {
 	c.Assert(err, IsNil)
 
 	args := haiconf.CommandArgs{
-		"Packages":           []string{"foo", "bar"},
+		"Packages":           []interface{}{"foo", "bar"},
 		"PackagesFromSource": cwd + "/testdata/packages.txt",
 	}
 
@@ -76,15 +76,17 @@ func (s *AptGetTestSuite) TestSetExtraOptions_Empty(c *C) {
 }
 
 func (s *AptGetTestSuite) TestSetExtraOptions_Provided(c *C) {
-	xtraOpts := []string{"a", "b"}
-	err := s.ag.setExtraOptions(haiconf.CommandArgs{"ExtraOptions": xtraOpts})
+	err := s.ag.setExtraOptions(haiconf.CommandArgs{
+		"ExtraOptions": []interface{}{"a", "b"},
+	})
 	c.Assert(err, IsNil)
-	c.Assert(s.ag.extraOptions, DeepEquals, xtraOpts)
+	c.Assert(s.ag.extraOptions, DeepEquals, []string{"a", "b"})
 }
 
 func (s *AptGetTestSuite) TestSetExtraOptions_DuplicateRemoved(c *C) {
-	xtraOpts := []string{"a", "b", "a", "a"}
-	err := s.ag.setExtraOptions(haiconf.CommandArgs{"ExtraOptions": xtraOpts})
+	err := s.ag.setExtraOptions(haiconf.CommandArgs{
+		"ExtraOptions": []interface{}{"a", "b", "a", "a"},
+	})
 	c.Assert(err, IsNil)
 	c.Assert(s.ag.extraOptions, DeepEquals, []string{"a", "b"})
 }
@@ -92,22 +94,22 @@ func (s *AptGetTestSuite) TestSetExtraOptions_DuplicateRemoved(c *C) {
 func (s *AptGetTestSuite) TestSetUserConfig_Install(c *C) {
 	args := haiconf.CommandArgs{
 		"Method":       METHOD_INSTALL,
-		"Packages":     []string{"a", "b"},
-		"ExtraOptions": []string{"foo", "bar"},
+		"Packages":     []interface{}{"a", "b"},
+		"ExtraOptions": []interface{}{"foo", "bar"},
 	}
 
 	err := s.ag.SetUserConfig(args)
 	c.Assert(err, IsNil)
 
 	c.Assert(s.ag.method, Equals, args["Method"])
-	c.Assert(s.ag.packages, DeepEquals, args["Packages"])
-	c.Assert(s.ag.extraOptions, DeepEquals, args["ExtraOptions"])
+	c.Assert(s.ag.packages, DeepEquals, []string{"a", "b"})
+	c.Assert(s.ag.extraOptions, DeepEquals, []string{"foo", "bar"})
 }
 
 func (s *AptGetTestSuite) TestSetUserConfig_Remove(c *C) {
 	args := haiconf.CommandArgs{
 		"Method":       METHOD_REMOVE,
-		"Packages":     []string{"a", "b"},
+		"Packages":     []interface{}{"a", "b"},
 		"ExtraOptions": []string{"foo", "bar"},
 	}
 
@@ -115,14 +117,14 @@ func (s *AptGetTestSuite) TestSetUserConfig_Remove(c *C) {
 	c.Assert(err, IsNil)
 
 	c.Assert(s.ag.method, Equals, args["Method"])
-	c.Assert(s.ag.packages, DeepEquals, args["Packages"])
-	c.Assert(s.ag.extraOptions, DeepEquals, args["ExtraOptions"])
+	c.Assert(s.ag.packages, DeepEquals, []string{"a", "b"})
+	c.Assert(s.ag.extraOptions, DeepEquals, []string(nil))
 }
 
 func (s *AptGetTestSuite) TestSetUserConfig_Update(c *C) {
 	args := haiconf.CommandArgs{
 		"Method":       METHOD_UPDATE,
-		"Packages":     []string{"a", "b"},
+		"Packages":     []interface{}{"a", "b"},
 		"ExtraOptions": []string{"foo", "bar"},
 	}
 
@@ -137,7 +139,7 @@ func (s *AptGetTestSuite) TestSetUserConfig_Update(c *C) {
 func (s *AptGetTestSuite) TestRun(c *C) {
 	args := haiconf.CommandArgs{
 		"Method":       "install",
-		"Packages":     []string{"azertyuiop"},
+		"Packages":     []interface{}{"azertyuiop"},
 		"ExtraOptions": []string{"-o", "DPkg::Options::=--force-confnew"},
 	}
 

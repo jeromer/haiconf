@@ -122,8 +122,12 @@ func (s *CheckersTestSuite) TestCheckStringList_Empty(c *C) {
 	c.Assert(p, DeepEquals, expected)
 }
 
-func (s *CheckersTestSuite) TestCheckStringList_NonEmpty(c *C) {
-	p, err := CheckStringList("StringList", CommandArgs{"StringList": []string{"foo"}})
+func (s *CheckersTestSuite) TestCheckStringList_NonEmpty_Interface(c *C) {
+	// XXX : we sometime receive a list of interface containing strings
+	p, err := CheckStringList("StringList", CommandArgs{
+		"StringList": []interface{}{"foo"},
+	})
+
 	c.Assert(err, IsNil)
 	c.Assert(p, DeepEquals, []string{"foo"})
 }

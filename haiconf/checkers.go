@@ -91,11 +91,16 @@ func CheckString(k string, args CommandArgs) (string, error) {
 }
 
 func CheckStringList(k string, args CommandArgs) ([]string, error) {
-	sl, _ := args[k].([]string)
+	ifaceList, found := args[k].([]interface{})
 
-	if len(sl) <= 0 {
-		return sl, NewArgError(k+" must be provided", args)
+	if !found {
+		return []string(nil), NewArgError(k+" must be provided", args)
 	}
 
-	return sl, nil
+	strList := make([]string, len(ifaceList))
+	for i, v := range ifaceList {
+		strList[i] = v.(string)
+	}
+
+	return strList, nil
 }
