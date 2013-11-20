@@ -1,4 +1,10 @@
-SUBPACKAGES=haiconf/ haiconf/fs hacks
+SUBPACKAGES=haiconf/ 			 \
+			haiconf/fs           \
+			haiconf/osutils/     \
+			haiconf/stringutils/ \
+			haiconf/pkg/         \
+			hacks
+
 help:
 	@echo "Available targets:"
 	@echo "- tests: run tests"
