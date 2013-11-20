@@ -40,13 +40,17 @@ func NewConf() *Conf {
 		l: luar.Init(),
 	}
 
+	c.registerCommands()
+
+	return &c
+}
+
+func (c *Conf) registerCommands() {
 	luar.Register(c.l, "", luar.Map{
 		"Directory": Directory,
 		"File":      File,
 		"AptGet":    AptGet,
 	})
-
-	return &c
 }
 
 func (c *Conf) DoFile(f string) error {
