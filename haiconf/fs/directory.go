@@ -29,9 +29,11 @@ type Directory struct {
 	// (https://code.google.com/p/go/issues/detail?id=2617)
 	// Let's use a temporary one
 	group *hacks.Group
+
+	rc *haiconf.RuntimeConfig
 }
 
-func (d *Directory) SetDefault() error {
+func (d *Directory) SetDefault(rc *haiconf.RuntimeConfig) error {
 	*d = Directory{
 		path:    "",
 		mode:    DEFAULT_MODE_DIRECTORY,
@@ -39,6 +41,7 @@ func (d *Directory) SetDefault() error {
 		group:   new(hacks.Group),
 		recurse: false,
 		ensure:  haiconf.ENSURE_PRESENT,
+		rc:      rc,
 	}
 
 	return nil
@@ -85,19 +88,23 @@ func (d *Directory) SetUserConfig(args haiconf.CommandArgs) error {
 func (d *Directory) Run() error {
 	// XXX : acquire/release lock
 	if d.ensure == haiconf.ENSURE_ABSENT {
+		haiconf.Output(d.rc, "Removing directory %s", d.path)
 		return RmDir(d.path, d.recurse)
 	}
 
+	haiconf.Output(d.rc, "Creating directory %s", d.path)
 	err := MkDir(d.path, d.recurse, d.mode)
 	if err != nil {
 		return err
 	}
 
+	haiconf.Output(d.rc, "Chmod %s on %s", d.mode, d.path)
 	err = Chmod(d.path, d.mode)
 	if err != nil {
 		return err
 	}
 
+	haiconf.Output(d.rc, "Chown %s:%s on %s", d.owner.Username, d.group.Name, d.path)
 	err = Chown(d.path, d.owner, d.group)
 	if err != nil {
 		return err

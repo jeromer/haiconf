@@ -18,7 +18,7 @@ var _ = Suite(&FileTestSuite{})
 
 func (s *FileTestSuite) SetUpTest(c *C) {
 	s.f = new(File)
-	s.f.SetDefault()
+	s.f.SetDefault(&dummyRuntimeConfig)
 }
 
 func (s *FileTestSuite) TestSetDefault(c *C) {
@@ -29,6 +29,7 @@ func (s *FileTestSuite) TestSetDefault(c *C) {
 		group:             new(hacks.Group),
 		ensure:            haiconf.ENSURE_PRESENT,
 		templateVariables: nil,
+		rc:                &dummyRuntimeConfig,
 	}
 
 	c.Assert(s.f, DeepEquals, expected)

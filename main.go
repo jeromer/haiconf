@@ -8,10 +8,12 @@ import (
 	"github.com/jeromer/haiconf/haiconf/fs"
 	"github.com/jeromer/haiconf/haiconf/pkg"
 	"github.com/stevedonovan/luar"
+	"os"
 )
 
 var (
 	flagConfigFile = flag.String("config", "./haiconf.lua", "Path to config file")
+	flagVerbose    = flag.Bool("verbose", true, "Verbose mode")
 )
 
 func main() {
@@ -85,9 +87,15 @@ func AptGet(args haiconf.CommandArgs) {
 }
 
 func runCommand(c haiconf.Commander, args haiconf.CommandArgs) {
-	var err error
+	rc := haiconf.RuntimeConfig{
+		Verbose: *flagVerbose,
+		Output:  os.Stdout,
+	}
 
-	c.SetDefault()
+	err := c.SetDefault(&rc)
+	if err != nil {
+		fmt.Println(err.Error())
+	}
 
 	err = c.SetUserConfig(args)
 	if err != nil {

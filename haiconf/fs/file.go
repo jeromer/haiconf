@@ -40,9 +40,11 @@ type File struct {
 	source string
 
 	templateVariables map[string]interface{}
+
+	rc *haiconf.RuntimeConfig
 }
 
-func (f *File) SetDefault() error {
+func (f *File) SetDefault(rc *haiconf.RuntimeConfig) error {
 	*f = File{
 		path:              "",
 		mode:              DEFAULT_MODE_FILE,
@@ -51,6 +53,7 @@ func (f *File) SetDefault() error {
 		ensure:            haiconf.ENSURE_PRESENT,
 		source:            "",
 		templateVariables: nil,
+		rc:                rc,
 	}
 
 	return nil
@@ -102,6 +105,7 @@ func (f *File) SetUserConfig(args haiconf.CommandArgs) error {
 func (f *File) Run() error {
 	// XXX : acquire/release lock
 	if f.ensure == haiconf.ENSURE_ABSENT {
+		haiconf.Output(f.rc, "Removing file %s", f.path)
 		return os.Remove(f.path)
 	}
 
@@ -110,16 +114,19 @@ func (f *File) Run() error {
 		return err
 	}
 
+	haiconf.Output(f.rc, "Creating file %s", f.path)
 	err = f.storeFile()
 	if err != nil {
 		return err
 	}
 
+	haiconf.Output(f.rc, "Chmod %s on %s", f.mode, f.path)
 	err = Chmod(f.path, f.mode)
 	if err != nil {
 		return err
 	}
 
+	haiconf.Output(f.rc, "Chown %s:%s on %s", f.owner.Username, f.group.Name, f.path)
 	err = Chown(f.path, f.owner, f.group)
 	if err != nil {
 		return err

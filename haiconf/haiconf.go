@@ -2,12 +2,17 @@ package haiconf
 
 import (
 	"fmt"
+	"io"
 )
 
 type CommandArgs map[string]interface{}
+type RuntimeConfig struct {
+	Verbose bool
+	Output  io.Writer
+}
 
 type Commander interface {
-	SetDefault() error
+	SetDefault(*RuntimeConfig) error
 	SetUserConfig(CommandArgs) error
 	Run() error
 }
@@ -23,4 +28,13 @@ func NewArgError(m string, args CommandArgs) *HaiconfError {
 
 func (err *HaiconfError) Error() string {
 	return fmt.Sprintf("%s. Received args : %+v", err.Msg, err.Args)
+}
+
+func Output(rc *RuntimeConfig, msgFmt string, msgArgs ...interface{}) {
+	if !rc.Verbose {
+		return
+	}
+
+	msg := fmt.Sprintf(msgFmt+"\n", msgArgs...)
+	io.WriteString(rc.Output, msg)
 }

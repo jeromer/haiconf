@@ -17,11 +17,18 @@ type DirectoryTestSuite struct {
 	d *Directory
 }
 
-var _ = Suite(&DirectoryTestSuite{})
+var (
+	_ = Suite(&DirectoryTestSuite{})
+
+	dummyRuntimeConfig = haiconf.RuntimeConfig{
+		Verbose: false,
+		Output:  nil,
+	}
+)
 
 func (s *DirectoryTestSuite) SetUpTest(c *C) {
 	s.d = new(Directory)
-	err := s.d.SetDefault()
+	err := s.d.SetDefault(&dummyRuntimeConfig)
 	c.Assert(err, IsNil)
 }
 
@@ -35,6 +42,7 @@ func (s *DirectoryTestSuite) TestSetDefault(c *C) {
 		group:   new(hacks.Group),
 		recurse: false,
 		ensure:  haiconf.ENSURE_PRESENT,
+		rc:      &dummyRuntimeConfig,
 	}
 
 	c.Assert(s.d, DeepEquals, expected)

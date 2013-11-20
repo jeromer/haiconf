@@ -14,12 +14,24 @@ type AptGetTestSuite struct {
 	ag *AptGet
 }
 
-var _ = Suite(&AptGetTestSuite{})
+var (
+	_ = Suite(&AptGetTestSuite{})
+
+	dummyRuntimeConfig = haiconf.RuntimeConfig{
+		Verbose: false,
+		Output:  nil,
+	}
+)
 
 func (s *AptGetTestSuite) SetUpTest(c *C) {
 	s.ag = new(AptGet)
-	err := s.ag.SetDefault()
+	err := s.ag.SetDefault(&dummyRuntimeConfig)
 	c.Assert(err, IsNil)
+}
+
+func (s *AptGetTestSuite) TestSetDefault(c *C) {
+	// XXX : s.d.SetDefault() called in Setuptest
+	c.Assert(s.ag.rc, Equals, &dummyRuntimeConfig)
 }
 
 func (s *AptGetTestSuite) TestSetPackages_NotFromList(c *C) {

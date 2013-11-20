@@ -65,9 +65,12 @@ type AptGet struct {
 	packages     []string
 	extraOptions []string
 	shellCmd     string
+
+	rc *haiconf.RuntimeConfig
 }
 
-func (ag *AptGet) SetDefault() error {
+func (ag *AptGet) SetDefault(rc *haiconf.RuntimeConfig) error {
+	ag.rc = rc
 	return nil
 }
 
