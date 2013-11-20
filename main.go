@@ -6,6 +6,7 @@ import (
 	lua "github.com/aarzilli/golua/lua"
 	"github.com/jeromer/haiconf/haiconf"
 	"github.com/jeromer/haiconf/haiconf/fs"
+	"github.com/jeromer/haiconf/haiconf/pkg"
 	"github.com/stevedonovan/luar"
 )
 
@@ -42,6 +43,7 @@ func NewConf() *Conf {
 	luar.Register(c.l, "", luar.Map{
 		"Directory": Directory,
 		"File":      File,
+		"AptGet":    AptGet,
 	})
 
 	return &c
@@ -72,6 +74,10 @@ func Directory(args haiconf.CommandArgs) {
 
 func File(args haiconf.CommandArgs) {
 	runCommand(new(fs.File), args)
+}
+
+func AptGet(args haiconf.CommandArgs) {
+	runCommand(new(pkg.AptGet), args)
 }
 
 func runCommand(c haiconf.Commander, args haiconf.CommandArgs) {
