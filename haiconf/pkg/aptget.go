@@ -35,6 +35,7 @@ const (
 var (
 	availableMethods = []string{
 		"install",
+		"update",
 	}
 
 	envVariables = map[string]string{
@@ -66,18 +67,24 @@ func (ag *AptGet) SetDefault() error {
 }
 
 func (ag *AptGet) SetUserConfig(args haiconf.CommandArgs) error {
-	setters := []func(haiconf.CommandArgs) error{
-		ag.setMethod,
-		ag.setPackages,
-		ag.setExtraOptions,
+	err := ag.setMethod(args)
+	if err != nil {
+		return err
 	}
 
-	var err error
-	for _, s := range setters {
-		err = s(args)
-		if err != nil {
-			return err
-		}
+	// non apt-get install
+	if ag.method != availableMethods[0] {
+		return nil
+	}
+
+	err = ag.setPackages(args)
+	if err != nil {
+		return err
+	}
+
+	err = ag.setExtraOptions(args)
+	if err != nil {
+		return err
 	}
 
 	return nil

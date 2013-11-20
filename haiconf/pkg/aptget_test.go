@@ -104,6 +104,21 @@ func (s *AptGetTestSuite) TestSetUserConfig_Complete(c *C) {
 	c.Assert(s.ag.extraOptions, DeepEquals, args["ExtraOptions"])
 }
 
+func (s *AptGetTestSuite) TestSetUserConfig_UpdateMethod(c *C) {
+	args := haiconf.CommandArgs{
+		"Method":       "update",
+		"Packages":     []string{"a", "b"},
+		"ExtraOptions": []string{"foo", "bar"},
+	}
+
+	err := s.ag.SetUserConfig(args)
+	c.Assert(err, IsNil)
+
+	c.Assert(s.ag.method, Equals, args["Method"])
+	c.Assert(s.ag.packages, DeepEquals, []string(nil))
+	c.Assert(s.ag.extraOptions, DeepEquals, []string(nil))
+}
+
 func (s *AptGetTestSuite) TestRun(c *C) {
 	args := haiconf.CommandArgs{
 		"Method":       "install",
