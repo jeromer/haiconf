@@ -30,13 +30,17 @@ import (
 
 const (
 	APT_GET = "/usr/bin/apt-get"
+
+	METHOD_INSTALL = "install"
+	METHOD_UPDATE  = "update"
+	METHOD_REMOVE  = "remove"
 )
 
 var (
 	availableMethods = []string{
-		"install",
-		"update",
-		"remove",
+		METHOD_INSTALL,
+		METHOD_UPDATE,
+		METHOD_REMOVE,
 	}
 
 	envVariables = map[string]string{
@@ -73,8 +77,7 @@ func (ag *AptGet) SetUserConfig(args haiconf.CommandArgs) error {
 		return err
 	}
 
-	// update
-	if ag.method == availableMethods[1] {
+	if ag.method == METHOD_UPDATE {
 		return nil
 	}
 

@@ -91,7 +91,7 @@ func (s *AptGetTestSuite) TestSetExtraOptions_DuplicateRemoved(c *C) {
 
 func (s *AptGetTestSuite) TestSetUserConfig_Install(c *C) {
 	args := haiconf.CommandArgs{
-		"Method":       "install",
+		"Method":       METHOD_INSTALL,
 		"Packages":     []string{"a", "b"},
 		"ExtraOptions": []string{"foo", "bar"},
 	}
@@ -106,7 +106,7 @@ func (s *AptGetTestSuite) TestSetUserConfig_Install(c *C) {
 
 func (s *AptGetTestSuite) TestSetUserConfig_Remove(c *C) {
 	args := haiconf.CommandArgs{
-		"Method":       "remove",
+		"Method":       METHOD_REMOVE,
 		"Packages":     []string{"a", "b"},
 		"ExtraOptions": []string{"foo", "bar"},
 	}
@@ -121,7 +121,7 @@ func (s *AptGetTestSuite) TestSetUserConfig_Remove(c *C) {
 
 func (s *AptGetTestSuite) TestSetUserConfig_Update(c *C) {
 	args := haiconf.CommandArgs{
-		"Method":       "update",
+		"Method":       METHOD_UPDATE,
 		"Packages":     []string{"a", "b"},
 		"ExtraOptions": []string{"foo", "bar"},
 	}
