@@ -27,4 +27,19 @@ function Main()
 			VarMap = {a="1", b="2"},
 		},
 	})
+
+    AptGet({
+        Method = "install",
+        -- defined here:
+        Packages = {"vim", "mutt", "cowsay"},
+        -- or alternatively:
+        -- PackageFromSource = "/path/to/packages.to.install.txt",
+        -- automatically added to the apt-get call
+        -- ExtraOptions = {
+        --     "--download-only",
+        --     "--simulate",
+        --     "--fix-broken",
+        -- }
+    })
+
 end
