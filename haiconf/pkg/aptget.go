@@ -118,7 +118,7 @@ func (ag *AptGet) Run() error {
 		Args:                 args,
 		EnvVars:              envVariables,
 		ExecDir:              os.TempDir(),
-		EnableShellExpansion: false,
+		EnableShellExpansion: true,
 	}
 
 	return sc.Run()
