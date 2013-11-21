@@ -66,7 +66,7 @@ func (s *CheckersTestSuite) TestCheckSystemGroup_NotProvided(c *C) {
 }
 
 func (s *CheckersTestSuite) TestCheckSystemGroup_Exists(c *C) {
-	groupName := "nobody"
+	groupName := "nogroup"
 	g, err := CheckSystemGroup("Group", CommandArgs{"Group": groupName})
 
 	c.Assert(err, IsNil)
