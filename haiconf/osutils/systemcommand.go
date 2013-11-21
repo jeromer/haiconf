@@ -74,9 +74,10 @@ func (sc *SystemCommand) buildCmd() *exec.Cmd {
 	args := sc.Args
 
 	if sc.EnableShellExpansion {
-		shellCommand := []string{"sh", "-c", sc.Path}
 		path = "/bin/sh"
-		args = append(shellCommand, sc.Args...)
+
+		fullCmd := fmt.Sprintf("%s %s", sc.Path, strings.Join(sc.Args, " "))
+		args = []string{"sh", "-c", fullCmd}
 	}
 
 	cmd := &exec.Cmd{
