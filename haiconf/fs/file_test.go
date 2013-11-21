@@ -87,9 +87,6 @@ func (s *FileTestSuite) TestSetUserConfig_Absent(c *C) {
 }
 
 func (s *FileTestSuite) TestRun_CreateRecursive(c *C) {
-	cu, err := user.Current()
-	c.Assert(err, IsNil)
-
 	cwd, err := os.Getwd()
 	c.Assert(err, IsNil)
 
@@ -100,8 +97,8 @@ func (s *FileTestSuite) TestRun_CreateRecursive(c *C) {
 		"Path":   tmpFile,
 		"Ensure": haiconf.ENSURE_PRESENT,
 		"Mode":   "0600",
-		"Owner":  cu.Username,
-		"Group":  "nogroup",
+		"Owner":  currentUser.Username,
+		"Group":  dummyGroup,
 		"Source": sourceFile,
 	})
 	c.Assert(err, IsNil)
@@ -125,9 +122,6 @@ func (s *FileTestSuite) TestRun_CreateRecursive(c *C) {
 }
 
 func (s *FileTestSuite) TestRun_CreateNonRecursive(c *C) {
-	cu, err := user.Current()
-	c.Assert(err, IsNil)
-
 	cwd, err := os.Getwd()
 	c.Assert(err, IsNil)
 
@@ -138,8 +132,8 @@ func (s *FileTestSuite) TestRun_CreateNonRecursive(c *C) {
 		"Path":   tmpFile,
 		"Ensure": haiconf.ENSURE_PRESENT,
 		"Mode":   "0644",
-		"Owner":  cu.Username,
-		"Group":  "nogroup",
+		"Owner":  currentUser.Username,
+		"Group":  dummyGroup,
 		"Source": sourceFile,
 	})
 	c.Assert(err, IsNil)
@@ -163,9 +157,6 @@ func (s *FileTestSuite) TestRun_CreateNonRecursive(c *C) {
 }
 
 func (s *FileTestSuite) TestRun_CreateApplyTemplates(c *C) {
-	cu, err := user.Current()
-	c.Assert(err, IsNil)
-
 	cwd, err := os.Getwd()
 	c.Assert(err, IsNil)
 
@@ -176,8 +167,8 @@ func (s *FileTestSuite) TestRun_CreateApplyTemplates(c *C) {
 		"Path":   tmpFile,
 		"Ensure": haiconf.ENSURE_PRESENT,
 		"Mode":   "0644",
-		"Owner":  cu.Username,
-		"Group":  "nogroup",
+		"Owner":  currentUser.Username,
+		"Group":  dummyGroup,
 		"Source": sourceFilePath,
 		"TemplateVariables": map[string]interface{}{
 			"Int":    123,

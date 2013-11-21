@@ -7,6 +7,7 @@ import (
 	"os"
 	"os/user"
 	"path"
+	"runtime"
 	"testing"
 )
 
@@ -24,12 +25,23 @@ var (
 		Verbose: false,
 		Output:  nil,
 	}
+
+	currentUser *user.User
+	dummyGroup  string
 )
 
 func (s *DirectoryTestSuite) SetUpTest(c *C) {
 	s.d = new(Directory)
 	err := s.d.SetDefault(&dummyRuntimeConfig)
 	c.Assert(err, IsNil)
+
+	currentUser, err = user.Current()
+	c.Assert(err, IsNil)
+
+	dummyGroup = "nogroup"
+	if runtime.GOOS == "linux" {
+		dummyGroup = currentUser.Username
+	}
 }
 
 func (s *DirectoryTestSuite) TestSetDefault(c *C) {
@@ -102,13 +114,10 @@ func (s *DirectoryTestSuite) TestSetUserConfig_Absent(c *C) {
 func (s *DirectoryTestSuite) TestRun_Create(c *C) {
 	tmpDir := c.MkDir() + "/foo/bar/baz"
 
-	cu, err := user.Current()
-	c.Assert(err, IsNil)
-
-	err = s.d.SetUserConfig(haiconf.CommandArgs{
+	err := s.d.SetUserConfig(haiconf.CommandArgs{
 		"Path":    tmpDir,
-		"Owner":   cu.Username,
-		"Group":   "nogroup",
+		"Owner":   currentUser.Username,
+		"Group":   dummyGroup,
 		"Recurse": true,
 		"Mode":    "0777",
 		"Ensure":  haiconf.ENSURE_PRESENT,
