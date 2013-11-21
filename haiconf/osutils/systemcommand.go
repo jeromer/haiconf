@@ -28,17 +28,17 @@ func (sce SystemCommandError) Error() string {
 	fmtArgs := []interface{}{sce.FullCommand}
 
 	if sce.ExitMessage != "" {
-		msgFmt = append(msgFmt, "Error message : \"%s\".")
+		msgFmt = append(msgFmt, "Error message was \"%s\".")
 		fmtArgs = append(fmtArgs, sce.ExitMessage)
 	}
 
 	if sce.Stdout != "" {
-		msgFmt = append(msgFmt, "StdOut : \"%s\".")
+		msgFmt = append(msgFmt, "StdOut was \"%s\".")
 		fmtArgs = append(fmtArgs, sce.Stdout)
 	}
 
 	if sce.Stderr != "" {
-		msgFmt = append(msgFmt, "StdErr : \"%s\".")
+		msgFmt = append(msgFmt, "StdErr was \"%s\".")
 		fmtArgs = append(fmtArgs, sce.Stderr)
 	}
 
