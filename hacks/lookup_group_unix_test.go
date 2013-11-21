@@ -19,7 +19,7 @@ func (s *SystemGroupTestSuite) TestLookupSystemGroup_UnknownGroup(c *C) {
 }
 
 func (s *SystemGroupTestSuite) TestLookupSystemGroup_KnownGroup(c *C) {
-	groupName := "nobody"
+	groupName := "nogroup"
 	g, err := LookupSystemGroup(groupName)
 
 	c.Assert(err, IsNil)
