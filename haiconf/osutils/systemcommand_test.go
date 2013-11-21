@@ -2,6 +2,7 @@ package osutils
 
 import (
 	. "launchpad.net/gocheck"
+	"os"
 )
 
 type SystemCommandTestSuite struct{}
@@ -17,7 +18,11 @@ func (s *SystemCommandTestSuite) TestBuildEnvVars(c *C) {
 	}
 
 	obtained := sc.buildEnvVars()
-	expected := []string{"FOO=bar", "BAR=baz"}
+	expected := []string{
+		"FOO=bar",
+		"BAR=baz",
+		"PATH=" + os.Getenv("PATH"),
+	}
 	c.Assert(obtained, DeepEquals, expected)
 }
 

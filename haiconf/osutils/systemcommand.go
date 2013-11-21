@@ -3,6 +3,7 @@ package osutils
 import (
 	"bytes"
 	"fmt"
+	"os"
 	"os/exec"
 	"strings"
 )
@@ -89,6 +90,8 @@ func (sc *SystemCommand) buildCmd() *exec.Cmd {
 }
 
 func (sc *SystemCommand) buildEnvVars() []string {
+	sc.addPathIfMissing()
+
 	envv := make([]string, len(sc.EnvVars))
 
 	i := 0
@@ -98,4 +101,16 @@ func (sc *SystemCommand) buildEnvVars() []string {
 	}
 
 	return envv
+}
+
+func (sc *SystemCommand) addPathIfMissing() {
+	if sc.EnvVars == nil {
+		return
+	}
+
+	_, present := sc.EnvVars["PATH"]
+
+	if !present {
+		sc.EnvVars["PATH"] = os.Getenv("PATH")
+	}
 }
