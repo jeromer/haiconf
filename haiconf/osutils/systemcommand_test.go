@@ -53,7 +53,7 @@ func (s *SystemCommandTestSuite) TestBuildCmd_ShellExpansionEnabled(c *C) {
 
 	cmd := sc.buildCmd()
 	c.Assert(cmd.Path, Equals, "/bin/sh")
-	c.Assert(cmd.Args, DeepEquals, []string{"sh", "-c", "/foo/bar", "a", "b"})
+	c.Assert(cmd.Args, DeepEquals, []string{"sh", "-c", "/foo/bar a b"})
 }
 
 func (s *SystemCommandTestSuite) TestRun_CommandFailedWrongPath(c *C) {
