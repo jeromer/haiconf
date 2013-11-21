@@ -99,8 +99,7 @@ func (ag *AptGet) SetUserConfig(args haiconf.CommandArgs) error {
 
 func (ag *AptGet) Run() error {
 	// XXX : crap
-	args := []string{ag.method}
-	args = append(args, defaultOptions...)
+	args := append(defaultOptions, ag.method)
 	args = stringutils.RemoveDuplicates(append(args, ag.extraOptions...))
 	args = stringutils.RemoveDuplicates(append(args, ag.packages...))
 
