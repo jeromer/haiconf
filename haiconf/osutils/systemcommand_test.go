@@ -60,7 +60,7 @@ func (s *SystemCommandTestSuite) TestRun_CommandFailedWrongPath(c *C) {
 
 	err := sc.Run()
 	c.Assert(err, NotNil)
-	expected := `Error with command "/path/to/inexistant/command a b". Error message : "fork/exec /path/to/inexistant/command: no such file or directory".`
+	expected := `Error with command "/path/to/inexistant/command a b". Error message was "fork/exec /path/to/inexistant/command: no such file or directory".`
 	c.Assert(err.Error(), Equals, expected)
 }
 
