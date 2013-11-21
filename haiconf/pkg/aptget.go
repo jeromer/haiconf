@@ -98,6 +98,16 @@ func (ag *AptGet) SetUserConfig(args haiconf.CommandArgs) error {
 }
 
 func (ag *AptGet) Run() error {
+	// Check if we could use APT's native API instead of calling an external command
+	// It seems we can use C++ with CGO by using Swig.
+	//
+	// Using the API directly would be much more efficient and less risky that
+	// calling a system command which is kind of ugly.
+	//
+	// Interesting links:
+	// http://golang.org/doc/faq#Do_Go_programs_link_with_Cpp_programs
+	// http://www.swig.org/Doc2.0/Go.html
+
 	// XXX : crap
 	args := append(defaultOptions, ag.method)
 	args = stringutils.RemoveDuplicates(append(args, ag.extraOptions...))
