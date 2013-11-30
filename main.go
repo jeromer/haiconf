@@ -2,12 +2,12 @@ package main
 
 import (
 	"flag"
-	"fmt"
 	lua "github.com/aarzilli/golua/lua"
 	"github.com/jeromer/haiconf/haiconf"
 	"github.com/jeromer/haiconf/haiconf/fs"
 	"github.com/jeromer/haiconf/haiconf/pkg"
 	"github.com/stevedonovan/luar"
+	"log"
 	"os"
 )
 
@@ -94,16 +94,16 @@ func runCommand(c haiconf.Commander, args haiconf.CommandArgs) {
 
 	err := c.SetDefault(&rc)
 	if err != nil {
-		fmt.Println(err.Error())
+		log.Fatal(err.Error())
 	}
 
 	err = c.SetUserConfig(args)
 	if err != nil {
-		fmt.Println(err.Error())
+		log.Fatal(err.Error())
 	}
 
 	err = c.Run()
 	if err != nil {
-		fmt.Println(err.Error())
+		log.Fatal(err.Error())
 	}
 }
