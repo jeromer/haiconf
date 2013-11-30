@@ -125,8 +125,4 @@ function Main()
 --        From = "/path/to/from/dir.tar.gz",
 --        Source = "/path/to/dest/dir",
 --    })
---
---    Touch({
---        File = "/path/to/file",
---    })
 end
