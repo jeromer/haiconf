@@ -6,6 +6,7 @@ import (
 	"github.com/jeromer/haiconf/haiconf"
 	"github.com/jeromer/haiconf/haiconf/fs"
 	"github.com/jeromer/haiconf/haiconf/pkg"
+	"github.com/jeromer/haiconf/haiconf/utils"
 	"github.com/stevedonovan/luar"
 	"log"
 	"os"
@@ -52,6 +53,7 @@ func (c *Conf) registerCommands() {
 		"Directory": Directory,
 		"File":      File,
 		"AptGet":    AptGet,
+		"HttpGet":   HttpGet,
 	})
 }
 
@@ -84,6 +86,10 @@ func File(args haiconf.CommandArgs) {
 
 func AptGet(args haiconf.CommandArgs) {
 	runCommand(new(pkg.AptGet), args)
+}
+
+func HttpGet(args haiconf.CommandArgs) {
+	runCommand(new(utils.HttpGet), args)
 }
 
 func runCommand(c haiconf.Commander, args haiconf.CommandArgs) {

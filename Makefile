@@ -3,6 +3,7 @@ SUBPACKAGES=haiconf/ 			 \
 			haiconf/osutils/     \
 			haiconf/stringutils/ \
 			haiconf/pkg/         \
+			haiconf/utils/       \
 			hacks
 
 help:
