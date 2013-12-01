@@ -112,8 +112,9 @@ function Main()
 --    --
 --    -- small utilities
 --    --
---    Curl({
---        Url = "http://some.url/path.to.pkg",
+--    HttpGet({
+--        From = "http://some.url/file.ext",
+--        To = "/tmp/file.ext",
 --    })
 --
 --    TarGz({
