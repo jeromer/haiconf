@@ -112,10 +112,10 @@ function Main()
 --    --
 --    -- small utilities
 --    --
---    HttpGet({
---        From = "http://some.url/file.ext",
---        To = "/tmp/file.ext",
---    })
+    HttpGet({
+        From = "http://some.url/file.ext",
+        To = "/tmp/file.ext",
+    })
 --
 --    TarGz({
 --        From = "/path/to/from/dir",
