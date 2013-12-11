@@ -94,8 +94,13 @@ func (h *HttpGet) setTo(args haiconf.CommandArgs) error {
 	}
 
 	dir := filepath.Dir(t)
-	if !isDir(dir) {
-		return haiconf.NewArgError(dir+" does not exists", args)
+	id, err := isDir(dir)
+	if err != nil {
+		return haiconf.NewArgError(err.Error(), args)
+	}
+
+	if !id {
+		return haiconf.NewArgError(dir+" is not a directory", args)
 	}
 
 	h.to = t
@@ -108,12 +113,11 @@ func hasFileName(f string) bool {
 	return len(ext) > 0
 }
 
-func isDir(d string) bool {
-	fd, err := os.Open(d)
-	if err == nil {
-		fd.Close()
-		return true
+func isDir(d string) (bool, error) {
+	fi, err := os.Stat(d)
+	if err != nil {
+		return false, err
 	}
 
-	return os.IsExist(err)
+	return fi.IsDir(), nil
 }

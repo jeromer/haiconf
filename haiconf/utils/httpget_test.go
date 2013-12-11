@@ -99,7 +99,7 @@ func (s *HttpGetTestSuite) TestSetTo_TargetDirDoesNotExists(c *C) {
 	}
 
 	err := s.h.setTo(args)
-	c.Assert(err, ErrorMatches, "/foo/bar does not exists. (.*)")
+	c.Assert(err, ErrorMatches, "stat /foo/bar: no such file or directory. (.*)")
 	c.Assert(s.h.to, Equals, "")
 }
 
