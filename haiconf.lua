@@ -47,4 +47,9 @@ function Main()
         To = "/tmp/example.html",
     })
 
+    TarGz({
+       Source = "/etc/",
+       Dest = "/tmp/etc.tar.gz",
+    })
+
 end
