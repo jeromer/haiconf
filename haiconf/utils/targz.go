@@ -45,7 +45,7 @@ func (t *TarGz) SetUserConfig(args haiconf.CommandArgs) error {
 }
 
 func (t *TarGz) Run() error {
-	haiconf.Output(t.rc, "Extracting %s to %s", t.source, t.dest)
+	haiconf.Output(t.rc, "Archiving %s to %s", t.source, t.dest)
 
 	return tarGz(t.source, t.dest)
 }
