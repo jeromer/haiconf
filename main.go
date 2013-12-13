@@ -54,6 +54,7 @@ func (c *Conf) registerCommands() {
 		"File":      File,
 		"AptGet":    AptGet,
 		"HttpGet":   HttpGet,
+		"TarGz":     TarGz,
 	})
 }
 
@@ -90,6 +91,10 @@ func AptGet(args haiconf.CommandArgs) {
 
 func HttpGet(args haiconf.CommandArgs) {
 	runCommand(new(utils.HttpGet), args)
+}
+
+func TarGz(args haiconf.CommandArgs) {
+	runCommand(new(utils.TarGz), args)
 }
 
 func runCommand(c haiconf.Commander, args haiconf.CommandArgs) {
