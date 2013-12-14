@@ -1,7 +1,8 @@
-package utils
+package httpget
 
 import (
 	"github.com/jeromer/haiconf/haiconf"
+	"github.com/jeromer/haiconf/haiconf/utils"
 	"io/ioutil"
 	"net/http"
 	"os"
@@ -89,12 +90,12 @@ func (h *HttpGet) setTo(args haiconf.CommandArgs) error {
 		return haiconf.NewArgError("To must be provided", args)
 	}
 
-	if !hasFileName(t) {
+	if !utils.HasFileName(t) {
 		return haiconf.NewArgError(t+" must be a file name", args)
 	}
 
 	dir := filepath.Dir(t)
-	id, err := isDir(dir)
+	id, err := utils.IsDir(dir)
 	if err != nil {
 		return haiconf.NewArgError(err.Error(), args)
 	}
@@ -106,18 +107,4 @@ func (h *HttpGet) setTo(args haiconf.CommandArgs) error {
 	h.to = t
 
 	return nil
-}
-
-func hasFileName(f string) bool {
-	ext := filepath.Ext(f)
-	return len(ext) > 0
-}
-
-func isDir(d string) (bool, error) {
-	fi, err := os.Stat(d)
-	if err != nil {
-		return false, err
-	}
-
-	return fi.IsDir(), nil
 }

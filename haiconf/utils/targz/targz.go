@@ -1,10 +1,11 @@
-package utils
+package targz
 
 import (
 	"archive/tar"
 	"bytes"
 	"compress/gzip"
 	"github.com/jeromer/haiconf/haiconf"
+	"github.com/jeromer/haiconf/haiconf/utils"
 	"io/ioutil"
 	"os"
 	"path/filepath"
@@ -78,7 +79,7 @@ func (t *TarGz) setDest(args haiconf.CommandArgs) error {
 		return haiconf.NewArgError("No tarball name provided", args)
 	}
 
-	id, err := isDir(filepath.Dir(d))
+	id, err := utils.IsDir(filepath.Dir(d))
 	if err != nil {
 		return err
 	}

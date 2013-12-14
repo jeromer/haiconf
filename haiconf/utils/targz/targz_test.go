@@ -1,4 +1,4 @@
-package utils
+package targz
 
 import (
 	"archive/tar"
@@ -9,7 +9,11 @@ import (
 	"io/ioutil"
 	. "launchpad.net/gocheck"
 	"os"
+	"testing"
 )
+
+// Hooks up gocheck into the gotest runner.
+func Test(t *testing.T) { TestingT(t) }
 
 type TarGzTestSuite struct {
 	t *TarGz
@@ -17,6 +21,11 @@ type TarGzTestSuite struct {
 
 var (
 	_ = Suite(&TarGzTestSuite{})
+
+	dummyRuntimeConfig = haiconf.RuntimeConfig{
+		Verbose: false,
+		Output:  nil,
+	}
 )
 
 func (s *TarGzTestSuite) SetUpTest(c *C) {

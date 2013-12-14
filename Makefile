@@ -1,9 +1,10 @@
-SUBPACKAGES=haiconf/ 			 \
-			haiconf/fs           \
-			haiconf/osutils/     \
-			haiconf/stringutils/ \
-			haiconf/pkg/         \
-			haiconf/utils/       \
+SUBPACKAGES=haiconf/ 			  \
+			haiconf/fs            \
+			haiconf/osutils/      \
+			haiconf/stringutils/  \
+			haiconf/pkg/          \
+			haiconf/utils/httpget \
+			haiconf/utils/targz   \
 			hacks
 
 help:

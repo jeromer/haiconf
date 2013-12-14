@@ -6,7 +6,8 @@ import (
 	"github.com/jeromer/haiconf/haiconf"
 	"github.com/jeromer/haiconf/haiconf/fs"
 	"github.com/jeromer/haiconf/haiconf/pkg"
-	"github.com/jeromer/haiconf/haiconf/utils"
+	"github.com/jeromer/haiconf/haiconf/utils/httpget"
+	"github.com/jeromer/haiconf/haiconf/utils/targz"
 	"github.com/stevedonovan/luar"
 	"log"
 	"os"
@@ -90,11 +91,11 @@ func AptGet(args haiconf.CommandArgs) {
 }
 
 func HttpGet(args haiconf.CommandArgs) {
-	runCommand(new(utils.HttpGet), args)
+	runCommand(new(httpget.HttpGet), args)
 }
 
 func TarGz(args haiconf.CommandArgs) {
-	runCommand(new(utils.TarGz), args)
+	runCommand(new(targz.TarGz), args)
 }
 
 func runCommand(c haiconf.Commander, args haiconf.CommandArgs) {

@@ -1,4 +1,4 @@
-package utils
+package httpget
 
 import (
 	"github.com/jeromer/haiconf/haiconf"
