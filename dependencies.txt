@@ -3,3 +3,6 @@ launchpad.net/gocheck
 # We MUST use lua 5.1. Using 5.2 does not work
 github.com/aarzilli/golua/lua
 github.com/stevedonovan/luar
+
+# https://github.com/jeromer/haiconf/issues/1
+github.com/dotcloud/tar

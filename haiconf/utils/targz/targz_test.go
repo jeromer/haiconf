@@ -1,9 +1,9 @@
 package targz
 
 import (
-	"archive/tar"
 	"bytes"
 	"compress/gzip"
+	"github.com/dotcloud/tar"
 	"github.com/jeromer/haiconf/haiconf"
 	"io"
 	"io/ioutil"
