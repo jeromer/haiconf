@@ -116,11 +116,11 @@ function Main()
         From = "http://some.url/file.ext",
         To = "/tmp/file.ext",
     })
---
---    TarGz({
---        From = "/path/to/from/dir",
---        Source = "/path/to/dest/dir.tar.gz",
---    })
+
+    TarGz({
+       Source = "/etc/",
+       Dest = "/tmp/etc.tar.gz",
+    })
 --
 --    UnTarGz({
 --        From = "/path/to/from/dir.tar.gz",
