@@ -121,9 +121,9 @@ function Main()
        Source = "/etc/",
        Dest = "/tmp/etc.tar.gz",
     })
---
---    UnTarGz({
---        From = "/path/to/from/dir.tar.gz",
---        Source = "/path/to/dest/dir",
---    })
+
+    UnTarGz({
+       Source = "/path/to/tarball.tar.gz",
+       Dest = "/path/to/dir",
+    })
 end
