@@ -132,7 +132,7 @@ func (s *TarGzTestSuite) TestSetUserConfig_Complete(c *C) {
 }
 
 func (s *TarGzTestSuite) TestCreateTar(c *C) {
-	buff, err := createTar("./fixtures/")
+	buff, err := createTar("fixtures/")
 	c.Assert(err, IsNil)
 	c.Assert(len(buff) > 0, Equals, true)
 
@@ -155,7 +155,7 @@ func (s *TarGzTestSuite) TestCreateTar(c *C) {
 
 	expected := []*tar.Header{
 		&tar.Header{
-			Name:     "./fixtures/",
+			Name:     "fixtures/",
 			Typeflag: tar.TypeDir,
 		},
 		&tar.Header{
