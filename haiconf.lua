@@ -52,4 +52,9 @@ function Main()
        Dest = "/tmp/etc.tar.gz",
     })
 
+    UnTarGz({
+       Source = "/tmp/etc.tar.gz",
+       Dest = "/tmp",
+    })
+
 end
