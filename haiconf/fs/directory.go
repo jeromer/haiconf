@@ -23,28 +23,28 @@ import (
 )
 
 type Directory struct {
-	path    string
-	mode    os.FileMode
-	owner   *user.User
-	recurse bool
-	ensure  string
+	Path    string
+	Mode    os.FileMode
+	Owner   *user.User
+	Recurse bool
+	Ensure  string
 
 	// no user.Group in golang yet
 	// (https://code.google.com/p/go/issues/detail?id=2617)
 	// Let's use a temporary one
-	group *hacks.Group
+	Group *hacks.Group
 
 	rc *haiconf.RuntimeConfig
 }
 
 func (d *Directory) SetDefault(rc *haiconf.RuntimeConfig) error {
 	*d = Directory{
-		path:    "",
-		mode:    DEFAULT_MODE_DIRECTORY,
-		owner:   new(user.User),
-		group:   new(hacks.Group),
-		recurse: false,
-		ensure:  haiconf.ENSURE_PRESENT,
+		Path:    "",
+		Mode:    DEFAULT_MODE_DIRECTORY,
+		Owner:   new(user.User),
+		Group:   new(hacks.Group),
+		Recurse: false,
+		Ensure:  haiconf.ENSURE_PRESENT,
 		rc:      rc,
 	}
 
@@ -67,7 +67,7 @@ func (d *Directory) SetUserConfig(args haiconf.CommandArgs) error {
 		return err
 	}
 
-	if d.ensure == haiconf.ENSURE_ABSENT {
+	if d.Ensure == haiconf.ENSURE_ABSENT {
 		return nil
 	}
 
@@ -91,25 +91,25 @@ func (d *Directory) SetUserConfig(args haiconf.CommandArgs) error {
 
 func (d *Directory) Run() error {
 	// XXX : acquire/release lock
-	if d.ensure == haiconf.ENSURE_ABSENT {
-		haiconf.Output(d.rc, "Removing directory %s", d.path)
-		return RmDir(d.path, d.recurse)
+	if d.Ensure == haiconf.ENSURE_ABSENT {
+		haiconf.Output(d.rc, "Removing directory %s", d.Path)
+		return RmDir(d.Path, d.Recurse)
 	}
 
-	haiconf.Output(d.rc, "Creating directory %s", d.path)
-	err := MkDir(d.path, d.recurse, d.mode)
+	haiconf.Output(d.rc, "Creating directory %s", d.Path)
+	err := MkDir(d.Path, d.Recurse, d.Mode)
 	if err != nil {
 		return err
 	}
 
-	haiconf.Output(d.rc, "Chmod %s on %s", d.mode, d.path)
-	err = Chmod(d.path, d.mode)
+	haiconf.Output(d.rc, "Chmod %s on %s", d.Mode, d.Path)
+	err = Chmod(d.Path, d.Mode)
 	if err != nil {
 		return err
 	}
 
-	haiconf.Output(d.rc, "Chown %s:%s on %s", d.owner.Username, d.group.Name, d.path)
-	err = Chown(d.path, d.owner, d.group)
+	haiconf.Output(d.rc, "Chown %s:%s on %s", d.Owner.Username, d.Group.Name, d.Path)
+	err = Chown(d.Path, d.Owner, d.Group)
 	if err != nil {
 		return err
 	}
@@ -123,7 +123,7 @@ func (d *Directory) setPath(args haiconf.CommandArgs) error {
 		return err
 	}
 
-	d.path = p
+	d.Path = p
 
 	return nil
 }
@@ -134,7 +134,7 @@ func (d *Directory) setEnsure(args haiconf.CommandArgs) error {
 		return err
 	}
 
-	d.ensure = e
+	d.Ensure = e
 
 	return nil
 }
@@ -145,7 +145,7 @@ func (d *Directory) setMode(args haiconf.CommandArgs) error {
 		return err
 	}
 
-	d.mode = os.FileMode(m)
+	d.Mode = os.FileMode(m)
 
 	return nil
 }
@@ -156,7 +156,7 @@ func (d *Directory) setOwner(args haiconf.CommandArgs) error {
 		return err
 	}
 
-	d.owner = u
+	d.Owner = u
 	return nil
 }
 
@@ -166,11 +166,11 @@ func (d *Directory) setGroup(args haiconf.CommandArgs) error {
 		return err
 	}
 
-	d.group = grp
+	d.Group = grp
 	return nil
 }
 
 func (d *Directory) setRecurse(args haiconf.CommandArgs) error {
-	d.recurse = haiconf.CheckBool("Recurse", args)
+	d.Recurse = haiconf.CheckBool("Recurse", args)
 	return nil
 }

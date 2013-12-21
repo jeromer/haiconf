@@ -52,12 +52,12 @@ func (s *DirectoryTestSuite) TestSetDefault(c *C) {
 	// XXX : s.d.SetDefault() called in Setuptest
 
 	expected := &Directory{
-		path:    "",
-		mode:    0755,
-		owner:   new(user.User),
-		group:   new(hacks.Group),
-		recurse: false,
-		ensure:  haiconf.ENSURE_PRESENT,
+		Path:    "",
+		Mode:    0755,
+		Owner:   new(user.User),
+		Group:   new(hacks.Group),
+		Recurse: false,
+		Ensure:  haiconf.ENSURE_PRESENT,
 		rc:      &dummyRuntimeConfig,
 	}
 
@@ -83,12 +83,12 @@ func (s *DirectoryTestSuite) TestSetUserConfig_Complete(c *C) {
 	g, err := hacks.LookupSystemGroup("nogroup")
 	c.Assert(err, IsNil)
 
-	c.Assert(s.d.path, Equals, args["Path"])
-	c.Assert(s.d.mode, Equals, os.FileMode(0777))
-	c.Assert(s.d.owner, DeepEquals, u)
-	c.Assert(s.d.group, DeepEquals, g)
-	c.Assert(s.d.recurse, Equals, args["Recurse"])
-	c.Assert(s.d.ensure, Equals, args["Ensure"])
+	c.Assert(s.d.Path, Equals, args["Path"])
+	c.Assert(s.d.Mode, Equals, os.FileMode(0777))
+	c.Assert(s.d.Owner, DeepEquals, u)
+	c.Assert(s.d.Group, DeepEquals, g)
+	c.Assert(s.d.Recurse, Equals, args["Recurse"])
+	c.Assert(s.d.Ensure, Equals, args["Ensure"])
 }
 
 func (s *DirectoryTestSuite) TestSetUserConfig_Absent(c *C) {
@@ -104,15 +104,15 @@ func (s *DirectoryTestSuite) TestSetUserConfig_Absent(c *C) {
 	err := s.d.SetUserConfig(args)
 	c.Assert(err, IsNil)
 
-	c.Assert(s.d.path, Equals, args["Path"])
-	c.Assert(s.d.recurse, Equals, args["Recurse"])
-	c.Assert(s.d.ensure, Equals, args["Ensure"])
-	c.Assert(s.d.mode, Equals, DEFAULT_MODE_DIRECTORY)
+	c.Assert(s.d.Path, Equals, args["Path"])
+	c.Assert(s.d.Recurse, Equals, args["Recurse"])
+	c.Assert(s.d.Ensure, Equals, args["Ensure"])
+	c.Assert(s.d.Mode, Equals, DEFAULT_MODE_DIRECTORY)
 
 	// Since we want to remove the directory we do not care about
 	// the value of attributes below
-	c.Assert(s.d.owner, DeepEquals, new(user.User))
-	c.Assert(s.d.group, DeepEquals, new(hacks.Group))
+	c.Assert(s.d.Owner, DeepEquals, new(user.User))
+	c.Assert(s.d.Group, DeepEquals, new(hacks.Group))
 }
 
 func (s *DirectoryTestSuite) TestRun_Create(c *C) {
