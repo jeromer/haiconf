@@ -24,8 +24,8 @@ import (
 // })
 
 type TarGz struct {
-	source string
-	dest   string
+	Source string
+	Dest   string
 
 	rc *haiconf.RuntimeConfig
 }
@@ -50,9 +50,9 @@ func (t *TarGz) SetUserConfig(args haiconf.CommandArgs) error {
 }
 
 func (t *TarGz) Run() error {
-	haiconf.Output(t.rc, "Archiving %s to %s", t.source, t.dest)
+	haiconf.Output(t.rc, "Archiving %s to %s", t.Source, t.Dest)
 
-	return tarGz(t.source, t.dest)
+	return tarGz(t.Source, t.Dest)
 }
 
 func (t *TarGz) setSource(args haiconf.CommandArgs) error {
@@ -69,7 +69,7 @@ func (t *TarGz) setSource(args haiconf.CommandArgs) error {
 	}
 	defer f.Close()
 
-	t.source = s
+	t.Source = s
 	return nil
 }
 
@@ -92,7 +92,7 @@ func (t *TarGz) setDest(args haiconf.CommandArgs) error {
 		return haiconf.NewArgError(d+" is not a directory", args)
 	}
 
-	t.dest = d
+	t.Dest = d
 	return nil
 }
 

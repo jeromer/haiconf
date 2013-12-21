@@ -39,8 +39,8 @@ func (s *TarGzTestSuite) SetUpTest(c *C) {
 }
 
 func (s *TarGzTestSuite) TearDownTest(c *C) {
-	s.t.source = ""
-	s.t.dest = ""
+	s.t.Source = ""
+	s.t.Dest = ""
 }
 
 func (s *TarGzTestSuite) TestSetSource_Empty(c *C) {
@@ -50,7 +50,7 @@ func (s *TarGzTestSuite) TestSetSource_Empty(c *C) {
 
 	err := s.t.setSource(args)
 	c.Assert(err, ErrorMatches, "Source must be provided. (.*)")
-	c.Assert(s.t.source, Equals, "")
+	c.Assert(s.t.Source, Equals, "")
 }
 
 func (s *TarGzTestSuite) TestSetSource_FileDoesNotExist(c *C) {
@@ -60,7 +60,7 @@ func (s *TarGzTestSuite) TestSetSource_FileDoesNotExist(c *C) {
 
 	err := s.t.setSource(args)
 	c.Assert(err, ErrorMatches, "Source does not exist. (.*)")
-	c.Assert(s.t.source, Equals, "")
+	c.Assert(s.t.Source, Equals, "")
 }
 
 func (s *TarGzTestSuite) TestSetSource_FileExists(c *C) {
@@ -71,7 +71,7 @@ func (s *TarGzTestSuite) TestSetSource_FileExists(c *C) {
 
 	err := s.t.setSource(args)
 	c.Assert(err, IsNil)
-	c.Assert(s.t.source, Equals, tmpDir)
+	c.Assert(s.t.Source, Equals, tmpDir)
 }
 
 func (s *TarGzTestSuite) TestSetDest_Empty(c *C) {
@@ -81,7 +81,7 @@ func (s *TarGzTestSuite) TestSetDest_Empty(c *C) {
 
 	err := s.t.setDest(args)
 	c.Assert(err, ErrorMatches, "Dest must be provided. (.*)")
-	c.Assert(s.t.dest, Equals, "")
+	c.Assert(s.t.Dest, Equals, "")
 }
 
 func (s *TarGzTestSuite) TestSetDest_DirDoesNotExist(c *C) {
@@ -92,7 +92,7 @@ func (s *TarGzTestSuite) TestSetDest_DirDoesNotExist(c *C) {
 
 	err := s.t.setDest(args)
 	c.Assert(err, ErrorMatches, "stat "+tmpDir+": no such file or directory")
-	c.Assert(s.t.dest, Equals, "")
+	c.Assert(s.t.Dest, Equals, "")
 }
 
 func (s *TarGzTestSuite) TestSetDest_Exists(c *C) {
@@ -105,7 +105,7 @@ func (s *TarGzTestSuite) TestSetDest_Exists(c *C) {
 
 	err := s.t.setDest(args)
 	c.Assert(err, IsNil)
-	c.Assert(s.t.dest, Equals, fullPath)
+	c.Assert(s.t.Dest, Equals, fullPath)
 }
 
 func (s *TarGzTestSuite) TestSetDest_NoTarballName(c *C) {
@@ -115,7 +115,7 @@ func (s *TarGzTestSuite) TestSetDest_NoTarballName(c *C) {
 
 	err := s.t.setDest(args)
 	c.Assert(err, ErrorMatches, "No tarball name provided. (.*)")
-	c.Assert(s.t.dest, Equals, "")
+	c.Assert(s.t.Dest, Equals, "")
 }
 
 func (s *TarGzTestSuite) TestSetUserConfig_Complete(c *C) {
@@ -131,8 +131,8 @@ func (s *TarGzTestSuite) TestSetUserConfig_Complete(c *C) {
 
 	err := s.t.SetUserConfig(args)
 	c.Assert(err, IsNil)
-	c.Assert(s.t.source, Equals, source)
-	c.Assert(s.t.dest, Equals, dest)
+	c.Assert(s.t.Source, Equals, source)
+	c.Assert(s.t.Dest, Equals, dest)
 }
 
 func (s *TarGzTestSuite) TestCreateTar(c *C) {
@@ -214,8 +214,8 @@ func (s *TarGzTestSuite) TestRun_TarGz(c *C) {
 
 	err := s.t.SetUserConfig(args)
 	c.Assert(err, IsNil)
-	c.Assert(s.t.source, Equals, source)
-	c.Assert(s.t.dest, Equals, dest)
+	c.Assert(s.t.Source, Equals, source)
+	c.Assert(s.t.Dest, Equals, dest)
 
 	err = s.t.Run()
 	c.Assert(err, IsNil)
