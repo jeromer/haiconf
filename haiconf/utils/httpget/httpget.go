@@ -22,8 +22,8 @@ import (
 // })
 
 type HttpGet struct {
-	from string
-	to   string
+	From string
+	To   string
 
 	rc *haiconf.RuntimeConfig
 }
@@ -48,9 +48,9 @@ func (h *HttpGet) SetUserConfig(args haiconf.CommandArgs) error {
 }
 
 func (h *HttpGet) Run() error {
-	haiconf.Output(h.rc, "Downloading %s to %s", h.from, h.to)
+	haiconf.Output(h.rc, "Downloading %s to %s", h.From, h.To)
 
-	resp, err := http.Get(h.from)
+	resp, err := http.Get(h.From)
 	if err != nil {
 		return err
 	}
@@ -61,7 +61,7 @@ func (h *HttpGet) Run() error {
 		return err
 	}
 
-	f, err := os.Create(h.to)
+	f, err := os.Create(h.To)
 	if err != nil {
 		return err
 	}
@@ -80,7 +80,7 @@ func (h *HttpGet) setFrom(args haiconf.CommandArgs) error {
 	f = strings.ToLower(f)
 
 	if f[:7] == "http://" || f[:8] == "https://" {
-		h.from = f
+		h.From = f
 		return nil
 	}
 
@@ -108,7 +108,7 @@ func (h *HttpGet) setTo(args haiconf.CommandArgs) error {
 		return haiconf.NewArgError(dir+" is not a directory", args)
 	}
 
-	h.to = t
+	h.To = t
 
 	return nil
 }

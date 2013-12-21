@@ -35,8 +35,8 @@ func (s *HttpGetTestSuite) SetUpTest(c *C) {
 }
 
 func (s *HttpGetTestSuite) TearDownTest(c *C) {
-	s.h.from = ""
-	s.h.to = ""
+	s.h.From = ""
+	s.h.To = ""
 }
 
 func (s *HttpGetTestSuite) TestSetDefault(c *C) {
@@ -51,7 +51,7 @@ func (s *HttpGetTestSuite) TestSetFrom_Empty(c *C) {
 
 	err := s.h.setFrom(args)
 	c.Assert(err, ErrorMatches, "From must be provided. (.*)")
-	c.Assert(s.h.from, Equals, "")
+	c.Assert(s.h.From, Equals, "")
 }
 
 func (s *HttpGetTestSuite) TestSetFrom_NotHttp(c *C) {
@@ -61,7 +61,7 @@ func (s *HttpGetTestSuite) TestSetFrom_NotHttp(c *C) {
 
 	err := s.h.setFrom(args)
 	c.Assert(err, ErrorMatches, "From must be http or https. (.*)")
-	c.Assert(s.h.from, Equals, "")
+	c.Assert(s.h.From, Equals, "")
 }
 
 func (s *HttpGetTestSuite) TestSetFrom_IsHttp(c *C) {
@@ -72,7 +72,7 @@ func (s *HttpGetTestSuite) TestSetFrom_IsHttp(c *C) {
 
 	err := s.h.setFrom(args)
 	c.Assert(err, IsNil)
-	c.Assert(s.h.from, Equals, strings.ToLower(url))
+	c.Assert(s.h.From, Equals, strings.ToLower(url))
 }
 
 func (s *HttpGetTestSuite) TestSetFrom_IsHttpS(c *C) {
@@ -84,7 +84,7 @@ func (s *HttpGetTestSuite) TestSetFrom_IsHttpS(c *C) {
 
 	err := s.h.setFrom(args)
 	c.Assert(err, IsNil)
-	c.Assert(s.h.from, Equals, strings.ToLower(url))
+	c.Assert(s.h.From, Equals, strings.ToLower(url))
 }
 
 func (s *HttpGetTestSuite) TestSetTo_Empty(c *C) {
@@ -94,7 +94,7 @@ func (s *HttpGetTestSuite) TestSetTo_Empty(c *C) {
 
 	err := s.h.setTo(args)
 	c.Assert(err, ErrorMatches, "To must be provided. (.*)")
-	c.Assert(s.h.to, Equals, "")
+	c.Assert(s.h.To, Equals, "")
 }
 
 func (s *HttpGetTestSuite) TestSetTo_TargetDirDoesNotExists(c *C) {
@@ -104,7 +104,7 @@ func (s *HttpGetTestSuite) TestSetTo_TargetDirDoesNotExists(c *C) {
 
 	err := s.h.setTo(args)
 	c.Assert(err, ErrorMatches, "stat /foo/bar: no such file or directory. (.*)")
-	c.Assert(s.h.to, Equals, "")
+	c.Assert(s.h.To, Equals, "")
 }
 
 func (s *HttpGetTestSuite) TestSetTo_NotAFileName(c *C) {
@@ -116,7 +116,7 @@ func (s *HttpGetTestSuite) TestSetTo_NotAFileName(c *C) {
 
 	err := s.h.setTo(args)
 	c.Assert(err, ErrorMatches, to+" must be a file name. (.*)")
-	c.Assert(s.h.to, Equals, "")
+	c.Assert(s.h.To, Equals, "")
 }
 
 func (s *HttpGetTestSuite) TestSetUserConfig_Complete(c *C) {
@@ -131,8 +131,8 @@ func (s *HttpGetTestSuite) TestSetUserConfig_Complete(c *C) {
 
 	err := s.h.SetUserConfig(args)
 	c.Assert(err, IsNil)
-	c.Assert(s.h.from, Equals, from)
-	c.Assert(s.h.to, Equals, to)
+	c.Assert(s.h.From, Equals, from)
+	c.Assert(s.h.To, Equals, to)
 }
 
 func (s *HttpGetTestSuite) TestRun(c *C) {
@@ -146,8 +146,8 @@ func (s *HttpGetTestSuite) TestRun(c *C) {
 
 	err := s.h.SetUserConfig(args)
 	c.Assert(err, IsNil)
-	c.Assert(s.h.from, Equals, from)
-	c.Assert(s.h.to, Equals, to)
+	c.Assert(s.h.From, Equals, from)
+	c.Assert(s.h.To, Equals, to)
 
 	err = s.h.Run()
 	c.Assert(err, IsNil)
