@@ -23,8 +23,8 @@ import (
 // })
 
 type UnTarGz struct {
-	source string
-	dest   string
+	Source string
+	Dest   string
 
 	rc *haiconf.RuntimeConfig
 }
@@ -54,9 +54,9 @@ func (t *UnTarGz) SetUserConfig(args haiconf.CommandArgs) error {
 }
 
 func (t *UnTarGz) Run() error {
-	haiconf.Output(t.rc, "Extracting %s to %s", t.source, t.dest)
+	haiconf.Output(t.rc, "Extracting %s to %s", t.Source, t.Dest)
 
-	return unTarGz(t.source, t.dest)
+	return unTarGz(t.Source, t.Dest)
 }
 
 func (t *UnTarGz) setSource(args haiconf.CommandArgs) error {
@@ -74,7 +74,7 @@ func (t *UnTarGz) setSource(args haiconf.CommandArgs) error {
 		return haiconf.NewArgError(s+" is not a file", args)
 	}
 
-	t.source = s
+	t.Source = s
 	return nil
 }
 
@@ -93,7 +93,7 @@ func (t *UnTarGz) setDest(args haiconf.CommandArgs) error {
 		return haiconf.NewArgError(d+" is not a directory", args)
 	}
 
-	t.dest = d
+	t.Dest = d
 	return nil
 }
 

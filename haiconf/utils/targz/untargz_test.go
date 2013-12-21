@@ -31,8 +31,8 @@ func (s *UnTarGzTestSuite) SetUpTest(c *C) {
 }
 
 func (s *UnTarGzTestSuite) TearDownTest(c *C) {
-	s.t.source = ""
-	s.t.dest = ""
+	s.t.Source = ""
+	s.t.Dest = ""
 }
 
 func (s *UnTarGzTestSuite) TestSetSource_Empty(c *C) {
@@ -42,7 +42,7 @@ func (s *UnTarGzTestSuite) TestSetSource_Empty(c *C) {
 
 	err := s.t.setSource(args)
 	c.Assert(err, ErrorMatches, "Source must be provided. (.*)")
-	c.Assert(s.t.source, Equals, "")
+	c.Assert(s.t.Source, Equals, "")
 }
 
 func (s *UnTarGzTestSuite) TestSetSource_FileDoesNotExist(c *C) {
@@ -52,7 +52,7 @@ func (s *UnTarGzTestSuite) TestSetSource_FileDoesNotExist(c *C) {
 
 	err := s.t.setSource(args)
 	c.Assert(err, ErrorMatches, "stat /foo/bar/tarball.tar.gz: no such file or directory")
-	c.Assert(s.t.source, Equals, "")
+	c.Assert(s.t.Source, Equals, "")
 }
 
 func (s *UnTarGzTestSuite) TestSetSource_FileExists(c *C) {
@@ -68,7 +68,7 @@ func (s *UnTarGzTestSuite) TestSetSource_FileExists(c *C) {
 
 	err = s.t.setSource(args)
 	c.Assert(err, IsNil)
-	c.Assert(s.t.source, Equals, tmpFile)
+	c.Assert(s.t.Source, Equals, tmpFile)
 }
 
 func (s *UnTarGzTestSuite) TestSetDest_Empty(c *C) {
@@ -78,7 +78,7 @@ func (s *UnTarGzTestSuite) TestSetDest_Empty(c *C) {
 
 	err := s.t.setDest(args)
 	c.Assert(err, ErrorMatches, "Dest must be provided. (.*)")
-	c.Assert(s.t.dest, Equals, "")
+	c.Assert(s.t.Dest, Equals, "")
 }
 
 func (s *UnTarGzTestSuite) TestSetDest_DirDoesNotExist(c *C) {
@@ -89,7 +89,7 @@ func (s *UnTarGzTestSuite) TestSetDest_DirDoesNotExist(c *C) {
 
 	err := s.t.setDest(args)
 	c.Assert(err, ErrorMatches, "stat "+tmpDir+": no such file or directory")
-	c.Assert(s.t.dest, Equals, "")
+	c.Assert(s.t.Dest, Equals, "")
 }
 
 func (s *UnTarGzTestSuite) TestSetDest_Exists(c *C) {
@@ -100,7 +100,7 @@ func (s *UnTarGzTestSuite) TestSetDest_Exists(c *C) {
 
 	err := s.t.setDest(args)
 	c.Assert(err, IsNil)
-	c.Assert(s.t.dest, Equals, tmpDir)
+	c.Assert(s.t.Dest, Equals, tmpDir)
 }
 
 func (s *UnTarGzTestSuite) TestSetUserConfig_Complete(c *C) {
@@ -114,8 +114,8 @@ func (s *UnTarGzTestSuite) TestSetUserConfig_Complete(c *C) {
 
 	err := s.t.SetUserConfig(args)
 	c.Assert(err, IsNil)
-	c.Assert(s.t.source, Equals, source)
-	c.Assert(s.t.dest, Equals, dest)
+	c.Assert(s.t.Source, Equals, source)
+	c.Assert(s.t.Dest, Equals, dest)
 }
 
 func (s *UnTarGzTestSuite) TestGunzip(c *C) {
@@ -269,8 +269,8 @@ func (s *UnTarGzTestSuite) TestRun_UnTarGz(c *C) {
 
 	err := s.t.SetUserConfig(args)
 	c.Assert(err, IsNil)
-	c.Assert(s.t.source, Equals, source)
-	c.Assert(s.t.dest, Equals, dest)
+	c.Assert(s.t.Source, Equals, source)
+	c.Assert(s.t.Dest, Equals, dest)
 
 	err = s.t.Run()
 	c.Assert(err, IsNil)
