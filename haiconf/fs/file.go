@@ -36,27 +36,27 @@ import (
 )
 
 type File struct {
-	path   string
-	mode   os.FileMode
-	ensure string
-	owner  *user.User
-	group  *hacks.Group
-	source string
+	Path   string
+	Mode   os.FileMode
+	Ensure string
+	Owner  *user.User
+	Group  *hacks.Group
+	Source string
 
-	templateVariables map[string]interface{}
+	TemplateVariables map[string]interface{}
 
 	rc *haiconf.RuntimeConfig
 }
 
 func (f *File) SetDefault(rc *haiconf.RuntimeConfig) error {
 	*f = File{
-		path:              "",
-		mode:              DEFAULT_MODE_FILE,
-		owner:             new(user.User),
-		group:             new(hacks.Group),
-		ensure:            haiconf.ENSURE_PRESENT,
-		source:            "",
-		templateVariables: nil,
+		Path:              "",
+		Mode:              DEFAULT_MODE_FILE,
+		Owner:             new(user.User),
+		Group:             new(hacks.Group),
+		Ensure:            haiconf.ENSURE_PRESENT,
+		Source:            "",
+		TemplateVariables: nil,
 		rc:                rc,
 	}
 
@@ -74,7 +74,7 @@ func (f *File) SetUserConfig(args haiconf.CommandArgs) error {
 		return err
 	}
 
-	if f.ensure == haiconf.ENSURE_ABSENT {
+	if f.Ensure == haiconf.ENSURE_ABSENT {
 		return nil
 	}
 
@@ -108,30 +108,30 @@ func (f *File) SetUserConfig(args haiconf.CommandArgs) error {
 
 func (f *File) Run() error {
 	// XXX : acquire/release lock
-	if f.ensure == haiconf.ENSURE_ABSENT {
-		haiconf.Output(f.rc, "Removing file %s", f.path)
-		return os.Remove(f.path)
+	if f.Ensure == haiconf.ENSURE_ABSENT {
+		haiconf.Output(f.rc, "Removing file %s", f.Path)
+		return os.Remove(f.Path)
 	}
 
-	err := MkDir(path.Dir(f.path), true, 0755)
+	err := MkDir(path.Dir(f.Path), true, 0755)
 	if err != nil {
 		return err
 	}
 
-	haiconf.Output(f.rc, "Creating file %s", f.path)
+	haiconf.Output(f.rc, "Creating file %s", f.Path)
 	err = f.storeFile()
 	if err != nil {
 		return err
 	}
 
-	haiconf.Output(f.rc, "Chmod %s on %s", f.mode, f.path)
-	err = Chmod(f.path, f.mode)
+	haiconf.Output(f.rc, "Chmod %s on %s", f.Mode, f.Path)
+	err = Chmod(f.Path, f.Mode)
 	if err != nil {
 		return err
 	}
 
-	haiconf.Output(f.rc, "Chown %s:%s on %s", f.owner.Username, f.group.Name, f.path)
-	err = Chown(f.path, f.owner, f.group)
+	haiconf.Output(f.rc, "Chown %s:%s on %s", f.Owner.Username, f.Group.Name, f.Path)
+	err = Chown(f.Path, f.Owner, f.Group)
 	if err != nil {
 		return err
 	}
@@ -145,7 +145,7 @@ func (f *File) setPath(args haiconf.CommandArgs) error {
 		return err
 	}
 
-	f.path = p
+	f.Path = p
 
 	return nil
 }
@@ -156,7 +156,7 @@ func (f *File) setEnsure(args haiconf.CommandArgs) error {
 		return err
 	}
 
-	f.ensure = e
+	f.Ensure = e
 
 	return nil
 }
@@ -167,7 +167,7 @@ func (f *File) setMode(args haiconf.CommandArgs) error {
 		return err
 	}
 
-	f.mode = os.FileMode(m)
+	f.Mode = os.FileMode(m)
 
 	return nil
 }
@@ -178,7 +178,7 @@ func (f *File) setOwner(args haiconf.CommandArgs) error {
 		return err
 	}
 
-	f.owner = u
+	f.Owner = u
 	return nil
 }
 
@@ -188,7 +188,7 @@ func (f *File) setGroup(args haiconf.CommandArgs) error {
 		return err
 	}
 
-	f.group = grp
+	f.Group = grp
 	return nil
 }
 
@@ -221,7 +221,7 @@ func (f *File) setTemplateVariables(args haiconf.CommandArgs) error {
 		}
 	}
 
-	f.templateVariables = tmp
+	f.TemplateVariables = tmp
 	return nil
 }
 
@@ -231,22 +231,22 @@ func (f *File) setSource(args haiconf.CommandArgs) error {
 		return err
 	}
 
-	f.source = src
+	f.Source = src
 	return nil
 }
 
 func (f *File) storeFile() error {
-	from, err := os.Open(f.source)
+	from, err := os.Open(f.Source)
 	if err != nil {
 		return err
 	}
 
-	to, err := os.OpenFile(f.path, os.O_WRONLY|os.O_CREATE|os.O_TRUNC, f.mode)
+	to, err := os.OpenFile(f.Path, os.O_WRONLY|os.O_CREATE|os.O_TRUNC, f.Mode)
 	if err != nil {
 		return err
 	}
 
-	if f.templateVariables == nil {
+	if f.TemplateVariables == nil {
 		// XXX : check bytes written ?
 		_, err = io.Copy(to, from)
 		return err
@@ -257,7 +257,7 @@ func (f *File) storeFile() error {
 		return err
 	}
 
-	tpl := template.New(path.Base(f.path) + "-template")
+	tpl := template.New(path.Base(f.Path) + "-template")
 	t := template.Must(tpl.Parse(string(buff)))
-	return t.Execute(to, f.templateVariables)
+	return t.Execute(to, f.TemplateVariables)
 }

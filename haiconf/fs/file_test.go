@@ -27,12 +27,12 @@ func (s *FileTestSuite) SetUpTest(c *C) {
 
 func (s *FileTestSuite) TestSetDefault(c *C) {
 	expected := &File{
-		path:              "",
-		mode:              DEFAULT_MODE_FILE,
-		owner:             new(user.User),
-		group:             new(hacks.Group),
-		ensure:            haiconf.ENSURE_PRESENT,
-		templateVariables: nil,
+		Path:              "",
+		Mode:              DEFAULT_MODE_FILE,
+		Owner:             new(user.User),
+		Group:             new(hacks.Group),
+		Ensure:            haiconf.ENSURE_PRESENT,
+		TemplateVariables: nil,
 		rc:                &dummyRuntimeConfig,
 	}
 
@@ -58,12 +58,12 @@ func (s *FileTestSuite) TestSetUserConfig_Present(c *C) {
 	g, err := hacks.LookupSystemGroup("nogroup")
 	c.Assert(err, IsNil)
 
-	c.Assert(s.f.path, Equals, args["Path"])
-	c.Assert(s.f.mode, Equals, os.FileMode(0777))
-	c.Assert(s.f.owner, DeepEquals, u)
-	c.Assert(s.f.group, DeepEquals, g)
-	c.Assert(s.f.source, DeepEquals, args["Source"])
-	c.Assert(s.f.ensure, Equals, args["Ensure"])
+	c.Assert(s.f.Path, Equals, args["Path"])
+	c.Assert(s.f.Mode, Equals, os.FileMode(0777))
+	c.Assert(s.f.Owner, DeepEquals, u)
+	c.Assert(s.f.Group, DeepEquals, g)
+	c.Assert(s.f.Source, DeepEquals, args["Source"])
+	c.Assert(s.f.Ensure, Equals, args["Ensure"])
 }
 
 func (s *FileTestSuite) TestSetUserConfig_Absent(c *C) {
@@ -78,16 +78,16 @@ func (s *FileTestSuite) TestSetUserConfig_Absent(c *C) {
 	err := s.f.SetUserConfig(args)
 	c.Assert(err, IsNil)
 
-	c.Assert(s.f.path, Equals, args["Path"])
-	c.Assert(s.f.ensure, Equals, args["Ensure"])
-	c.Assert(s.f.mode, Equals, DEFAULT_MODE_FILE)
+	c.Assert(s.f.Path, Equals, args["Path"])
+	c.Assert(s.f.Ensure, Equals, args["Ensure"])
+	c.Assert(s.f.Mode, Equals, DEFAULT_MODE_FILE)
 
 	// Since we want to remove the directory we do not care about
 	// the value of attributes below
-	c.Assert(s.f.owner, DeepEquals, new(user.User))
-	c.Assert(s.f.group, DeepEquals, new(hacks.Group))
-	c.Assert(s.f.templateVariables, IsNil)
-	c.Assert(s.f.source, Equals, "")
+	c.Assert(s.f.Owner, DeepEquals, new(user.User))
+	c.Assert(s.f.Group, DeepEquals, new(hacks.Group))
+	c.Assert(s.f.TemplateVariables, IsNil)
+	c.Assert(s.f.Source, Equals, "")
 }
 
 func (s *FileTestSuite) TestRun_CreateRecursive(c *C) {
@@ -223,7 +223,7 @@ func (s *FileTestSuite) TestRun_Remove(c *C) {
 func (s *FileTestSuite) TestSetTemplateVariables_NoVariables(c *C) {
 	err := s.f.setTemplateVariables(haiconf.CommandArgs{})
 	c.Assert(err, IsNil)
-	c.Assert(s.f.templateVariables, IsNil)
+	c.Assert(s.f.TemplateVariables, IsNil)
 }
 
 func (s *FileTestSuite) TestSetTemplateVariables_VariablesConverted(c *C) {
@@ -241,5 +241,5 @@ func (s *FileTestSuite) TestSetTemplateVariables_VariablesConverted(c *C) {
 		"BoolFalse":      false,
 		"StandardString": "foo",
 	}
-	c.Assert(s.f.templateVariables, DeepEquals, expected)
+	c.Assert(s.f.TemplateVariables, DeepEquals, expected)
 }
