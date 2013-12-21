@@ -57,7 +57,7 @@ func (s *AptGetTestSuite) TestSetPackages_FromList(c *C) {
 
 	err = s.ag.setPackages(args)
 	c.Assert(err, IsNil)
-	c.Assert(s.ag.packages, DeepEquals, []string{"vim", "cowsay"})
+	c.Assert(s.ag.Packages, DeepEquals, []string{"vim", "cowsay"})
 }
 
 func (s *AptGetTestSuite) TestSetPackages_DuplicateRemoved(c *C) {
@@ -67,7 +67,7 @@ func (s *AptGetTestSuite) TestSetPackages_DuplicateRemoved(c *C) {
 
 	err := s.ag.setPackages(args)
 	c.Assert(err, IsNil)
-	c.Assert(s.ag.packages, DeepEquals, []string{"a", "b"})
+	c.Assert(s.ag.Packages, DeepEquals, []string{"a", "b"})
 }
 
 func (s *AptGetTestSuite) TestSetPackages_PackagesHasPrecedence(c *C) {
@@ -82,13 +82,13 @@ func (s *AptGetTestSuite) TestSetPackages_PackagesHasPrecedence(c *C) {
 	err = s.ag.setPackages(args)
 	c.Assert(err, IsNil)
 	// Packages has precedence over Packagesfromsource
-	c.Assert(s.ag.packages, DeepEquals, []string{"foo", "bar"})
+	c.Assert(s.ag.Packages, DeepEquals, []string{"foo", "bar"})
 }
 
 func (s *AptGetTestSuite) TestSetExtraOptions_Empty(c *C) {
 	err := s.ag.setExtraOptions(haiconf.CommandArgs{})
 	c.Assert(err, IsNil)
-	c.Assert(s.ag.extraOptions, DeepEquals, []string(nil))
+	c.Assert(s.ag.ExtraOptions, DeepEquals, []string(nil))
 }
 
 func (s *AptGetTestSuite) TestSetExtraOptions_Provided(c *C) {
@@ -96,7 +96,7 @@ func (s *AptGetTestSuite) TestSetExtraOptions_Provided(c *C) {
 		"ExtraOptions": []interface{}{"a", "b"},
 	})
 	c.Assert(err, IsNil)
-	c.Assert(s.ag.extraOptions, DeepEquals, []string{"a", "b"})
+	c.Assert(s.ag.ExtraOptions, DeepEquals, []string{"a", "b"})
 }
 
 func (s *AptGetTestSuite) TestSetExtraOptions_DuplicateRemoved(c *C) {
@@ -104,7 +104,7 @@ func (s *AptGetTestSuite) TestSetExtraOptions_DuplicateRemoved(c *C) {
 		"ExtraOptions": []interface{}{"a", "b", "a", "a"},
 	})
 	c.Assert(err, IsNil)
-	c.Assert(s.ag.extraOptions, DeepEquals, []string{"a", "b"})
+	c.Assert(s.ag.ExtraOptions, DeepEquals, []string{"a", "b"})
 }
 
 func (s *AptGetTestSuite) TestSetUserConfig_Install(c *C) {
@@ -117,9 +117,9 @@ func (s *AptGetTestSuite) TestSetUserConfig_Install(c *C) {
 	err := s.ag.SetUserConfig(args)
 	c.Assert(err, IsNil)
 
-	c.Assert(s.ag.method, Equals, args["Method"])
-	c.Assert(s.ag.packages, DeepEquals, []string{"a", "b"})
-	c.Assert(s.ag.extraOptions, DeepEquals, []string{"foo", "bar"})
+	c.Assert(s.ag.Method, Equals, args["Method"])
+	c.Assert(s.ag.Packages, DeepEquals, []string{"a", "b"})
+	c.Assert(s.ag.ExtraOptions, DeepEquals, []string{"foo", "bar"})
 }
 
 func (s *AptGetTestSuite) TestSetUserConfig_Remove(c *C) {
@@ -132,9 +132,9 @@ func (s *AptGetTestSuite) TestSetUserConfig_Remove(c *C) {
 	err := s.ag.SetUserConfig(args)
 	c.Assert(err, IsNil)
 
-	c.Assert(s.ag.method, Equals, args["Method"])
-	c.Assert(s.ag.packages, DeepEquals, []string{"a", "b"})
-	c.Assert(s.ag.extraOptions, DeepEquals, []string(nil))
+	c.Assert(s.ag.Method, Equals, args["Method"])
+	c.Assert(s.ag.Packages, DeepEquals, []string{"a", "b"})
+	c.Assert(s.ag.ExtraOptions, DeepEquals, []string(nil))
 }
 
 func (s *AptGetTestSuite) TestSetUserConfig_Update(c *C) {
@@ -147,9 +147,9 @@ func (s *AptGetTestSuite) TestSetUserConfig_Update(c *C) {
 	err := s.ag.SetUserConfig(args)
 	c.Assert(err, IsNil)
 
-	c.Assert(s.ag.method, Equals, args["Method"])
-	c.Assert(s.ag.packages, DeepEquals, []string(nil))
-	c.Assert(s.ag.extraOptions, DeepEquals, []string(nil))
+	c.Assert(s.ag.Method, Equals, args["Method"])
+	c.Assert(s.ag.Packages, DeepEquals, []string(nil))
+	c.Assert(s.ag.ExtraOptions, DeepEquals, []string(nil))
 }
 
 func (s *AptGetTestSuite) TestRun(c *C) {

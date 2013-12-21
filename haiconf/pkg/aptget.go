@@ -65,9 +65,9 @@ var (
 )
 
 type AptGet struct {
-	method       string
-	packages     []string
-	extraOptions []string
+	Method       string
+	Packages     []string
+	ExtraOptions []string
 	shellCmd     string
 
 	rc *haiconf.RuntimeConfig
@@ -84,7 +84,7 @@ func (ag *AptGet) SetUserConfig(args haiconf.CommandArgs) error {
 		return err
 	}
 
-	if ag.method == METHOD_UPDATE {
+	if ag.Method == METHOD_UPDATE {
 		return nil
 	}
 
@@ -113,9 +113,9 @@ func (ag *AptGet) Run() error {
 	// http://www.swig.org/Doc2.0/Go.html
 
 	// XXX : crap
-	args := append(defaultOptions, ag.method)
-	args = stringutils.RemoveDuplicates(append(args, ag.extraOptions...))
-	args = stringutils.RemoveDuplicates(append(args, ag.packages...))
+	args := append(defaultOptions, ag.Method)
+	args = stringutils.RemoveDuplicates(append(args, ag.ExtraOptions...))
+	args = stringutils.RemoveDuplicates(append(args, ag.Packages...))
 
 	sc := osutils.SystemCommand{
 		Path:                 APT_GET,
@@ -135,7 +135,7 @@ func (ag *AptGet) setMethod(args haiconf.CommandArgs) error {
 		return err
 	}
 
-	ag.method = m
+	ag.Method = m
 
 	return nil
 }
@@ -144,7 +144,7 @@ func (ag *AptGet) setPackages(args haiconf.CommandArgs) error {
 	pl, _ := haiconf.CheckStringList("Packages", args)
 
 	if len(pl) > 0 {
-		ag.packages = stringutils.RemoveDuplicates(pl)
+		ag.Packages = stringutils.RemoveDuplicates(pl)
 		return nil
 	}
 
@@ -163,7 +163,7 @@ func (ag *AptGet) setPackages(args haiconf.CommandArgs) error {
 		}
 
 		pkgs := strings.FieldsFunc(string(buff), nlSplit)
-		ag.packages = stringutils.RemoveDuplicates(pkgs)
+		ag.Packages = stringutils.RemoveDuplicates(pkgs)
 
 		return nil
 	}
@@ -177,7 +177,7 @@ func (ag *AptGet) setExtraOptions(args haiconf.CommandArgs) error {
 	l := len(xtraOpts)
 
 	if l > 0 {
-		ag.extraOptions = stringutils.RemoveDuplicates(xtraOpts)
+		ag.ExtraOptions = stringutils.RemoveDuplicates(xtraOpts)
 	}
 
 	return nil
