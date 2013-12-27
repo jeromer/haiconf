@@ -2,7 +2,7 @@ What is Haiconf ?
 =================
 
 Haiconf is an experimental configuration management system based on the power
-of Lua. The idea came from my personal frustration with Puppet.
+of Lua.
 
 How does this stuff work ?
 --------------------------
