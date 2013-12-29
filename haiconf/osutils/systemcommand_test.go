@@ -80,7 +80,32 @@ func (s *SystemCommandTestSuite) TestRun_CommandFailed(c *C) {
 		EnableShellExpansion: false,
 	}
 
-	err := sc.Run()
-	// TODO : improve error msg check
-	c.Assert(err, NotNil)
+	output := sc.Run()
+	s.assertOutputNotNil(output, c)
+}
+
+func (s *SystemCommandTestSuite) TestRun_CommandSuccess(c *C) {
+	sc := &SystemCommand{
+		Path:                 "/bin/hostname",
+		EnableShellExpansion: false,
+	}
+
+	output := sc.Run()
+	s.assertOutputIsNil(output, c)
+}
+
+func (s *SystemCommandTestSuite) assertOutputNotNil(o SystemCommandOutput, c *C) {
+	c.Assert(o.HasError(), Equals, true)
+
+	c.Assert(len(o.ExitMessage), Not(Equals), 0)
+	c.Assert(len(o.Stdout), Equals, 0)
+	c.Assert(len(o.Stderr), Not(Equals), 0)
+}
+
+func (s *SystemCommandTestSuite) assertOutputIsNil(o SystemCommandOutput, c *C) {
+	c.Assert(o.HasError(), Equals, false)
+
+	c.Assert(len(o.ExitMessage), Equals, 0)
+	c.Assert(len(o.Stdout), Not(Equals), 0)
+	c.Assert(len(o.Stderr), Equals, 0)
 }

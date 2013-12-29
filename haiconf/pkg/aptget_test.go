@@ -152,7 +152,7 @@ func (s *AptGetTestSuite) TestSetUserConfig_Update(c *C) {
 	c.Assert(s.ag.ExtraOptions, DeepEquals, []string(nil))
 }
 
-func (s *AptGetTestSuite) TestRun(c *C) {
+func (s *AptGetTestSuite) TestRun_Failed(c *C) {
 	args := haiconf.CommandArgs{
 		"Method":       "install",
 		"Packages":     []interface{}{"azertyuiop"},

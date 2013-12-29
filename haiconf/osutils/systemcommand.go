@@ -21,36 +21,41 @@ type SystemCommand struct {
 	cmd                  *exec.Cmd
 }
 
-type SystemCommandError struct {
+type SystemCommandOutput struct {
 	FullCommand string
 	ExitMessage string
 	Stdout      string
 	Stderr      string
+	hasError    bool
 }
 
-func (sce SystemCommandError) Error() string {
+func (sco SystemCommandOutput) HasError() bool {
+	return sco.hasError
+}
+
+func (sco SystemCommandOutput) Error() string {
 	msgFmt := []string{"Error with command \"%s\"."}
-	fmtArgs := []interface{}{sce.FullCommand}
+	fmtArgs := []interface{}{sco.FullCommand}
 
-	if sce.ExitMessage != "" {
+	if sco.ExitMessage != "" {
 		msgFmt = append(msgFmt, "Error message was \"%s\".")
-		fmtArgs = append(fmtArgs, sce.ExitMessage)
+		fmtArgs = append(fmtArgs, sco.ExitMessage)
 	}
 
-	if sce.Stdout != "" {
+	if sco.Stdout != "" {
 		msgFmt = append(msgFmt, "StdOut was \"%s\".")
-		fmtArgs = append(fmtArgs, sce.Stdout)
+		fmtArgs = append(fmtArgs, sco.Stdout)
 	}
 
-	if sce.Stderr != "" {
+	if sco.Stderr != "" {
 		msgFmt = append(msgFmt, "StdErr was \"%s\".")
-		fmtArgs = append(fmtArgs, sce.Stderr)
+		fmtArgs = append(fmtArgs, sco.Stderr)
 	}
 
 	return fmt.Sprintf(strings.Join(msgFmt, " "), fmtArgs...)
 }
 
-func (sc *SystemCommand) Run() error {
+func (sc *SystemCommand) Run() SystemCommandOutput {
 	cmd := sc.buildCmd()
 
 	var stdOut, stdErr bytes.Buffer
@@ -59,18 +64,19 @@ func (sc *SystemCommand) Run() error {
 
 	err := cmd.Run()
 
-	if err != nil {
-		e := SystemCommandError{
-			Stdout:      stdOut.String(),
-			Stderr:      stdErr.String(),
-			FullCommand: cmd.Path + " " + strings.Join(cmd.Args, " "),
-			ExitMessage: err.Error(),
-		}
-
-		return e
+	o := SystemCommandOutput{
+		Stdout:      stdOut.String(),
+		Stderr:      stdErr.String(),
+		FullCommand: cmd.Path + " " + strings.Join(cmd.Args, " "),
+		hasError:    false,
 	}
 
-	return nil
+	if err != nil {
+		o.ExitMessage = err.Error()
+		o.hasError = true
+	}
+
+	return o
 }
 
 func (sc *SystemCommand) buildCmd() *exec.Cmd {

@@ -125,7 +125,12 @@ func (ag *AptGet) Run() error {
 		EnableShellExpansion: true,
 	}
 
-	return sc.Run()
+	output := sc.Run()
+	if output.HasError() {
+		return output
+	}
+
+	return nil
 }
 
 func (ag *AptGet) setMethod(args haiconf.CommandArgs) error {
