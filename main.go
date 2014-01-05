@@ -8,6 +8,7 @@ import (
 	"flag"
 	lua "github.com/aarzilli/golua/lua"
 	"github.com/jeromer/haiconf/haiconf"
+	"github.com/jeromer/haiconf/haiconf/cron"
 	"github.com/jeromer/haiconf/haiconf/fs"
 	"github.com/jeromer/haiconf/haiconf/pkg"
 	"github.com/jeromer/haiconf/haiconf/utils/httpget"
@@ -61,6 +62,7 @@ func (c *Conf) registerCommands() {
 		"HttpGet":   HttpGet,
 		"TarGz":     TarGz,
 		"UnTarGz":   UnTarGz,
+		"Cron":      Cron,
 	})
 }
 
@@ -105,6 +107,10 @@ func TarGz(args haiconf.CommandArgs) {
 
 func UnTarGz(args haiconf.CommandArgs) {
 	runCommand(new(targz.UnTarGz), args)
+}
+
+func Cron(args haiconf.CommandArgs) {
+	runCommand(new(cron.Cron), args)
 }
 
 func runCommand(c haiconf.Commander, args haiconf.CommandArgs) {

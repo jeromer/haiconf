@@ -1,5 +1,6 @@
 SUBPACKAGES=haiconf/ 			  \
 			haiconf/fs            \
+			haiconf/cron          \
 			haiconf/osutils/      \
 			haiconf/stringutils/  \
 			haiconf/pkg/          \

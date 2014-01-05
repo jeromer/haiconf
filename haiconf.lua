@@ -57,4 +57,29 @@ function Main()
        Dest = "/tmp",
     })
 
+    Cron({
+        Command = "/path/to/ntpdate",
+        Ensure = "present",
+
+        Env = {
+            PATH     = "$PATH:/usr/bin/foo",
+            ENV_VAR2 = "foo-bar",
+        },
+
+        Schedule = {
+
+            -- yearly / monthly / weekly / daily / hourly
+            Predefined = "yearly",
+
+            -- alternatively :
+            WeekDay  = "*",
+            Month    = "*",
+            MonthDay = "*",
+            Hour     = "*",
+            Minute   = "*",
+        },
+
+        Owner="vagrant",
+    })
+
 end
