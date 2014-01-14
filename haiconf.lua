@@ -82,4 +82,8 @@ function Main()
         Owner="vagrant",
     })
 
+    Group({
+        Name="testgroup",
+        Ensure="present",
+    })
 end

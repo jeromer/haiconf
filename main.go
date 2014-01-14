@@ -11,6 +11,7 @@ import (
 	"github.com/jeromer/haiconf/haiconf/cron"
 	"github.com/jeromer/haiconf/haiconf/fs"
 	"github.com/jeromer/haiconf/haiconf/pkg"
+	"github.com/jeromer/haiconf/haiconf/user"
 	"github.com/jeromer/haiconf/haiconf/utils/httpget"
 	"github.com/jeromer/haiconf/haiconf/utils/targz"
 	"github.com/stevedonovan/luar"
@@ -63,6 +64,7 @@ func (c *Conf) registerCommands() {
 		"TarGz":     TarGz,
 		"UnTarGz":   UnTarGz,
 		"Cron":      Cron,
+		"Group":     Group,
 	})
 }
 
@@ -111,6 +113,10 @@ func UnTarGz(args haiconf.CommandArgs) {
 
 func Cron(args haiconf.CommandArgs) {
 	runCommand(new(cron.Cron), args)
+}
+
+func Group(args haiconf.CommandArgs) {
+	runCommand(new(user.Group), args)
 }
 
 func runCommand(c haiconf.Commander, args haiconf.CommandArgs) {
